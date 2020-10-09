@@ -1,0 +1,8 @@
+.footer-nav-item:after {
+  content: "•";
+  display: inline-block;
+  margin-left: 0.5rem;
+}
+.footer-nav-item:last-child:after {
+  content: none;
+}
