@@ -1,17 +1,9 @@
 import React from "react";
 import {
   Box,
-  Text,
   Stack,
-  InputGroup,
-  Input,
-  InputLeftElement,
-  Icon,
-  FormLabel,
-  Checkbox,
-  Link,
   Button,
-  Divider,
+  Select,
   FormControl,
   Heading,
 } from "@chakra-ui/core";
@@ -23,10 +15,15 @@ export default function Card({
   subtitle = "",
   primaryAction = null,
   secondaryActions = null,
+  filterActions = null,
+  bg = "secondary.card",
+  color = "gray.800",
   children,
 }) {
-  const actions = [
-    primaryAction ? (
+  let actions = [];
+
+  if (primaryAction) {
+    actions.push(
       <Button
         key="0"
         onClick={primaryAction.onClick}
@@ -35,26 +32,44 @@ export default function Card({
       >
         {primaryAction.content}
       </Button>
-    ) : (
-      ""
-    ),
-    secondaryActions
-      ? secondaryActions.map((action, i) => (
-          <Button
-            key={i}
-            onClick={action.onClick}
-            colorScheme="main"
-            variant="outline"
-            size="sm"
-          >
-            {action.content}
-          </Button>
-        ))
-      : "",
-  ];
+    );
+  }
+  if (secondaryActions) {
+    actions.push(
+      secondaryActions.map((action, i) => (
+        <Button
+          key={i}
+          onClick={action.onClick}
+          colorScheme="main"
+          variant="outline"
+          size="sm"
+        >
+          {action.content}
+        </Button>
+      ))
+    );
+  }
+
+  if (filterActions) {
+    actions.push(
+      filterActions.map((action, i) => (
+        <Select key={i} onChange={action.onClick} size="sm">
+          {Object.keys(action.items).map((value, index) => (
+            <option
+              key={index}
+              selected={action.default == value}
+              value={value}
+            >
+              {action.items[value]}
+            </option>
+          ))}
+        </Select>
+      ))
+    );
+  }
 
   const header =
-    title || subtitle || actions ? (
+    title || subtitle || actions.length > 0 ? (
       <Stack direction="row" alignItems="top" marginBottom="1.5rem">
         <Stack>
           <Heading size="md">{title}</Heading>
@@ -70,7 +85,7 @@ export default function Card({
       ""
     );
   return (
-    <Box width="100%" bg="secondary.card" rounded="lg" p={5}>
+    <Box width="100%" bg={bg} color={color} rounded="lg" p={5}>
       {header}
       <Box>{children}</Box>
     </Box>

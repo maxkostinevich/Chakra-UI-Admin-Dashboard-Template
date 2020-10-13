@@ -35,7 +35,10 @@ export default function Nav() {
           direction={["column", "row"]}
           alignItems={["flex-end", "center"]}
         >
-          <Image boxSize="54px" fallbackSrc="https://via.placeholder.com/150" />
+          <Image
+            boxSize="54px"
+            fallbackSrc="https://user-images.githubusercontent.com/10295466/95871054-e472de00-0d75-11eb-93f4-2593ce275869.png"
+          />
           <Text fontSize="xl" fontWeight="500">
             Awesome app
           </Text>

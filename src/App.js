@@ -13,7 +13,7 @@ import {
 import { Dashboard } from "./containers/Dashboard";
 
 function App() {
-  const [preview, setPreview] = useState("sign_in");
+  const [preview, setPreview] = useState("dashboard");
 
   const changePreview = (e) => {
     setPreview(e.target.value);
@@ -50,6 +50,7 @@ function App() {
         borderWidth="1px"
         borderColor="#cccccc"
         bottom="30%"
+        zIndex="10"
         p={4}
       >
         <Text fontWeight="500">Preview:</Text>
@@ -58,7 +59,9 @@ function App() {
           <option value="sign_up">Sign up</option>
           <option value="reset_password_1">Reset Password (Step 1)</option>
           <option value="reset_password_2">Reset Password (Step 2)</option>
-          <option value="dashboard">Dashboard</option>
+          <option selected value="dashboard">
+            Dashboard
+          </option>
         </Select>
       </Box>
       {previewComponent()}
