@@ -11,6 +11,7 @@ import {
 } from "./containers/Auth";
 
 import { Dashboard } from "./containers/Dashboard";
+import { Users } from "./containers/Users";
 
 function App() {
   const [preview, setPreview] = useState("dashboard");
@@ -37,8 +38,10 @@ function App() {
       case "dashboard":
         defaultComponent = <Dashboard />;
         break;
+      case "users":
+        defaultComponent = <Users />;
+        break;
     }
-    console.log(preview, defaultComponent);
     return defaultComponent;
   };
 
@@ -62,6 +65,7 @@ function App() {
           <option selected value="dashboard">
             Dashboard
           </option>
+          <option value="users">Table</option>
         </Select>
       </Box>
       {previewComponent()}

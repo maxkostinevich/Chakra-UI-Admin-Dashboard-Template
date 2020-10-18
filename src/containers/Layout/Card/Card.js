@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Box,
-  Stack,
-  Button,
-  Select,
-  FormControl,
-  Heading,
-} from "@chakra-ui/core";
+import { Box, Stack, Button, Select, Heading } from "@chakra-ui/core";
 
 import "./Card.scss";
 
@@ -57,7 +50,7 @@ export default function Card({
           {Object.keys(action.items).map((value, index) => (
             <option
               key={index}
-              selected={action.default == value}
+              selected={action.default === value}
               value={value}
             >
               {action.items[value]}
