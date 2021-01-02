@@ -1,38 +1,48 @@
 import React, { useState } from "react";
 import {
   Box,
-  Text,
   Stack,
   InputGroup,
   Input,
   InputLeftElement,
   Icon,
   FormLabel,
-  Checkbox,
   Link,
   Button,
-  Divider,
   FormControl,
   Heading,
 } from "@chakra-ui/core";
+import { authCall } from "../../../helpers/apiCall";
+import { useHistory } from "react-router-dom"
 
 import { FaRegEnvelope, FaLock } from "react-icons/fa";
 
-import { PageContainer, Footer } from "../Layout";
+import { PageContainer } from "../Layout";
 
 import "./Login.scss";
 
 export default function Login() {
   const [isSubmitting, setSubmitting] = useState(false);
+  const [formDetails, setFormDetails] = useState({
+    email: "",
+    password: "",
+  })
+  const history = useHistory()
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    // Demo: Submit login form
     setSubmitting(true);
-    setTimeout(function () {
-      setSubmitting(false);
-    }, 700);
-    // End demo
+    authCall("admin/auth/login", formDetails).then(res => {
+      window.localStorage.setItem("user", JSON.stringify(res));
+      history.push("/")
+    })
   };
+
+  const handleChange = (e, name) => {
+    e.persist();
+    setFormDetails(prev => {
+      return { ...prev, [name]: e.target.value }
+    });
+  }
   return (
     <PageContainer>
       <Box
@@ -57,7 +67,9 @@ export default function Login() {
                   type="email"
                   name="email"
                   id="email"
-                  placeholder="name@example.com"
+                  value={formDetails.email}
+                  placeholder="Email"
+                  onChange={(e) => handleChange(e, "email")}
                 />
               </InputGroup>
             </FormControl>
@@ -83,23 +95,12 @@ export default function Login() {
                   name="password"
                   id="password"
                   type="password"
-                  placeholder="Enter your password"
+                  value={formDetails.value}
+                  placeholder="Password"
+                  onChange={(e) => handleChange(e, "password")}
                 />
               </InputGroup>
             </FormControl>
-          </Stack>
-          <Stack justifyContent="space-between" isInline marginBottom="1rem">
-            <Stack isInline>
-              <Checkbox
-                size="md"
-                fontWeight="500"
-                colorScheme="main"
-                name="remember_me"
-                id="remember_me"
-              >
-                Remember me
-              </Checkbox>
-            </Stack>
           </Stack>
           <Stack marginBottom="1rem">
             <Button
@@ -112,17 +113,7 @@ export default function Login() {
             </Button>
           </Stack>
         </form>
-        <Divider marginBottom="1rem" />
-        <Stack>
-          <Text textAlign="center" fontWeight="500">
-            Don't have an account?
-          </Text>
-          <Button colorScheme="main" variant="outline">
-            Sign up
-          </Button>
-        </Stack>
       </Box>
-      <Footer />
     </PageContainer>
   );
 }

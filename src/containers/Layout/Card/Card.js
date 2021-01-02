@@ -46,11 +46,10 @@ export default function Card({
   if (filterActions) {
     actions.push(
       filterActions.map((action, i) => (
-        <Select key={i} onChange={action.onClick} size="sm">
+        <Select key={i} onChange={action.onClick} placeholder="Select" size="sm">
           {Object.keys(action.items).map((value, index) => (
             <option
               key={index}
-              selected={action.default === value}
               value={value}
             >
               {action.items[value]}

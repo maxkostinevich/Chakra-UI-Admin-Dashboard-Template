@@ -7,15 +7,12 @@ import {
   MenuItem,
   MenuButton,
   IconButton,
-  Button,
-  Stack,
-  Heading,
-  Select,
 } from "@chakra-ui/core";
 
 import { FaEllipsisV } from "react-icons/fa";
 
 import "./Table.scss";
+import { Link } from "react-router-dom";
 
 export default function Table({
   headers = [],
@@ -52,7 +49,7 @@ export default function Table({
                 />
               </th>
             ) : (
-              ""
+              null
             )}
 
             {headers.map((head, i) => (
@@ -75,7 +72,7 @@ export default function Table({
                   />
                 </td>
               ) : (
-                ""
+                null
               )}
 
               {Object.keys(item).map((column, c) => (
@@ -90,6 +87,7 @@ export default function Table({
                     icon={<FaEllipsisV />}
                   ></MenuButton>
                   <MenuList>
+                    <MenuItem as={Link} href="/customer">View</MenuItem>
                     <MenuItem>Edit</MenuItem>
                     <MenuItem>Delete</MenuItem>
                   </MenuList>
