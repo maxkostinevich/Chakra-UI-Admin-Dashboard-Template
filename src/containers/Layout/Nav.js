@@ -44,7 +44,7 @@ export default function Nav() {
           </Text>
           <Stack direction={["column", "row"]} style={{ marginLeft: "5rem" }}>
             <Button colorScheme="navItem" variant="ghost">
-              <Link href="/admin/dashboard">Dashboard</Link>
+              <Link href="/admin/dashboard">Home</Link>
             </Button>
             <Menu>
               <MenuButton
@@ -53,7 +53,7 @@ export default function Nav() {
                 variant="ghost"
                 rightIcon={<Icon as={FaChevronDown} color="navItem.500" />}
               >
-                Customers
+                Registration
               </MenuButton>
               <MenuList>
                 <MenuItem><Link href="/customers">View All</Link></MenuItem>
@@ -68,7 +68,24 @@ export default function Nav() {
                 variant="ghost"
                 rightIcon={<Icon as={FaChevronDown} color="navItem.500" />}
               >
-                Loans
+                Approval
+              </MenuButton>
+              <MenuList>
+                <MenuItem><Link href="/loans">View All</Link></MenuItem>
+                <MenuItem><Link href="/loans/active">Active Loans</Link></MenuItem>
+                <MenuItem><Link href="/loans/applications">Loan Applications</Link></MenuItem>
+                <MenuDivider />
+                <MenuItem><Link href="/new-loan">New Application</Link></MenuItem>
+              </MenuList>
+            </Menu>
+            <Menu>
+              <MenuButton
+                as={Button}
+                colorScheme="navItem"
+                variant="ghost"
+                rightIcon={<Icon as={FaChevronDown} color="navItem.500" />}
+              >
+                Financials
               </MenuButton>
               <MenuList>
                 <MenuItem><Link href="/loans">View All</Link></MenuItem>

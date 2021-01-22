@@ -70,7 +70,7 @@ export default function Dashboard() {
             </Stack>
           </Flex>
         </Card>
-        <Card title="New Subscriptions" bg="main.500" color="white">
+        <Card title="New Applications" bg="main.500" color="white">
           <Flex alignItems="center" justifyContent="space-between">
             <Text fontSize="4em" lineHeight="4rem" fontWeight="700">
               12
