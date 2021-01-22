@@ -7,12 +7,19 @@ import {
   MenuItem,
   MenuButton,
   IconButton,
+  Text,
 } from "@chakra-ui/core";
 
 import { FaEllipsisV } from "react-icons/fa";
 
 import "./Table.scss";
 import { Link } from "react-router-dom";
+import {
+  Table as ChakraTable, Thead,
+  Tr,
+  Th,
+  Tbody, Td
+} from "@chakra-ui/react";
 
 export default function Table({
   headers = [],
@@ -38,49 +45,51 @@ export default function Table({
   };
   return (
     <Box width="100%" bg={bg} color={color} rounded="lg" p={5}>
-      <table className="chakra-ui-table">
-        <thead>
-          <tr>
+      <ChakraTable variant="striped" className="chakra-ui-table">
+        <Thead>
+          <Tr>
             {selectable ? (
-              <th data-column="global-selector">
+              <Th data-column="global-selector">
                 <Checkbox
                   isChecked={localSelected.length === itemsIds.length}
                   onChange={(e) => setCheckedItems(e.target.checked)}
                 />
-              </th>
+              </Th>
             ) : (
-              null
-            )}
+                null
+              )}
 
             {headers.map((head, i) => (
-              <th key={i} data-column={head.id}>
+              <Th key={i} data-column={head.id}>
                 {head.title}
-              </th>
+              </Th>
             ))}
-            <th data-column="item-actions"></th>
-          </tr>
-        </thead>
-        <tbody>
-          {items.map((item, i) => (
-            <tr key={i}>
+            <Th data-column="item-actions"></Th>
+          </Tr>
+        </Thead>
+        <Tbody>
+          {items.length < 1 ? <Td>
+            <Tr colSpan="6"><Text align="center">No Data Yet</Text></Tr>
+          </Td> : <>{items.map((item, i) => (
+            <Tr key={i}>
               {selectable ? (
-                <td data-column="global-selector">
+                <Td data-column="global-selector">
                   <Checkbox
                     defaultIsChecked={selected.includes(item.id)}
                     isChecked={localSelected.includes(item.id)}
                     onChange={(e) => setCheckedItem(item.id, e.target.checked)}
                   />
-                </td>
+                </Td>
               ) : (
-                null
-              )}
+                  null
+                )}
 
               {Object.keys(item).map((column, c) => (
-                <td key={c} data-column={headers[c]}>
+                <Td key={c} data-column={headers[c]}>
                   {item[headers[c].id]}
-                </td>
+                </Td>
               ))}
-              <td data-column="item-actions">
+              <Td data-column="item-actions">
                 <Menu>
                   <MenuButton
                     as={IconButton}
@@ -92,11 +101,11 @@ export default function Table({
                     <MenuItem>Delete</MenuItem>
                   </MenuList>
                 </Menu>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+              </Td>
+            </Tr>
+          ))}</>}
+        </Tbody>
+      </ChakraTable>
     </Box>
   );
 }

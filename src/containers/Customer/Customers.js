@@ -1,14 +1,20 @@
-import { useToast } from "@chakra-ui/core";
+import { Box, IconButton, Menu, MenuButton, MenuItem, MenuList, useToast } from "@chakra-ui/core";
 import React, { useContext, useEffect, useState } from "react";
 import { getCall } from "../../helpers/apiCall";
 import UserContext from "../../contexts/UserContext";
-import { PageContent, Table } from "../Layout";
+import { PageContent } from "../Layout";
+import { Link, useHistory } from "react-router-dom";
+import { Table, Tbody, Thead, Tr, Td, Th } from "@chakra-ui/react";
+
+import "../Layout/Table/Table.scss";
+import { FaEllipsisV } from "react-icons/fa";
 
 export default function Customers() {
     const [loading, setLoading] = useState(true);
     const [customers, setCustomers] = useState([]);
     const { user } = useContext(UserContext);
     const toast = useToast();
+    const history = useHistory()
 
     useEffect(() => {
         if (user.firstName !== "") {
@@ -24,7 +30,7 @@ export default function Customers() {
     let headers = [
         {
             id: "sno",
-            title: "S/No",
+            title: "SN",
         },
         {
             id: "firstName",
@@ -44,18 +50,33 @@ export default function Customers() {
         },
         {
             id: "createdAt",
-            title: "Date registered",
+            title: "Date Registered",
         },
     ];
 
-    let users = customers.map((c, i) => ({
-        sno: i + 1,
-        firstName: c.firstName,
-        lastName: c.lastName,
-        email: c.email,
-        phoneNumber: c.phoneNumber,
-        createdAt: new Date(c.created).toLocaleDateString("en-NG")
-    }))
+    let customerList = customers.map((c, i) => (
+        <Tr key={i}>
+            <Td>{i + 1}</Td>
+            <Td>{c.firstName}</Td>
+            <Td>{c.lastName}</Td>
+            <Td>{c.email}</Td>
+            <Td>{c.phoneNumber}</Td>
+            <Td>{new Date(c.created).toLocaleDateString("en-NG")}</Td>
+            <Td data-column="item-actions">
+                <Menu>
+                    <MenuButton
+                        as={IconButton}
+                        icon={<FaEllipsisV />}
+                    ></MenuButton>
+                    <MenuList>
+                        <MenuItem as={Link} onClick={() => history.push(`/customers/${c.id}`)}>View</MenuItem>
+                        <MenuItem>Edit</MenuItem>
+                        <MenuItem>Delete</MenuItem>
+                    </MenuList>
+                </Menu>
+            </Td>
+        </Tr>
+    ))
 
     if (loading) {
         return (
@@ -67,15 +88,31 @@ export default function Customers() {
     } else {
         return (
             <PageContent
-                title="Users"
+                title="Customers"
                 primaryAction={{
-                    content: "Add user",
+                    content: "Add Customer",
                     onClick: () => {
-                        alert("ok");
+                        history.push("/new-customer")
                     },
                 }}
             >
-                <Table headers={headers} items={users} />
+                <Box width="100%" bg={"secondary.card"} color={"gray.800"} rounded="lg" p={5}>
+                    <Table className="chakra-ui-table">
+                        <Thead>
+                            <Tr>
+                                <Th>SN</Th>
+                                <Th>First Name</Th>
+                                <Th>Last Name</Th>
+                                <Th>Email</Th>
+                                <Th>Phone Number</Th>
+                                <Th>Date Registered</Th>
+                            </Tr>
+                        </Thead>
+                        <Tbody>
+                            {customers.length < 1 ? <Td>No Customers Found</Td> : customerList}
+                        </Tbody>
+                    </Table>
+                </Box>
             </PageContent>
         );
     }

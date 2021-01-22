@@ -1,8 +1,8 @@
 import { Box, Button, FormControl, FormLabel, Heading, Input, Select, Stack, useToast } from '@chakra-ui/core'
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { useHistory } from 'react-router-dom';
 import UserContext from '../../contexts/UserContext';
-import { postCall } from '../../helpers/apiCall';
+import { getCall, postCall } from '../../helpers/apiCall';
 import { PageContainer, PageContent } from '../Layout'
 
 export default function NewCustomerEmployment(props) {
@@ -26,6 +26,17 @@ export default function NewCustomerEmployment(props) {
             return { ...prev, [name]: e.target.value }
         });
     }
+
+    useEffect(() => {
+        if(user.firstName !== ""){
+            console.log(user);
+            getCall(`customer/${id}`, user.token).then(res => {
+                console.log(res);
+            }, err => {
+                console.log(err);
+            })
+        }
+    }, [])
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
