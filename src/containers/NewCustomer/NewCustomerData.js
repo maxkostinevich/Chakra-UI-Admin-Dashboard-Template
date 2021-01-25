@@ -1,10 +1,11 @@
-import { Box, Button, Divider, FormControl, FormLabel, Heading, Input, Select, Stack, useToast } from '@chakra-ui/core'
+import { Box, Button, Center, Divider, FormControl, FormLabel, Heading, Input, Select, Stack, useToast } from '@chakra-ui/core'
 import React, { useState, useContext } from 'react'
 import { useHistory } from 'react-router-dom';
 import UserContext from '../../contexts/UserContext';
 import { postCall } from '../../helpers/apiCall';
 import { PageContainer, PageContent } from '../Layout'
 import states from '../../helpers/ng.states.json';
+import { Image } from '@chakra-ui/react';
 
 export default function NewCustomerData(props) {
     const [isSubmitting, setIsSubmitting] = useState(false)
@@ -18,7 +19,10 @@ export default function NewCustomerData(props) {
         address: "",
         city: "",
         state: "",
+        passport: {},
+        passportPreview: ""
     })
+    const [showPassport, setShowPassport] = useState(false);
     const [lga, setLga] = useState([])
     const toast = useToast()
     const history = useHistory()
@@ -110,7 +114,7 @@ export default function NewCustomerData(props) {
                                     <option value="widowed">Widowed</option>
                                 </Select>
                             </FormControl>
-                            <Divider/>
+                            <Divider />
                             <FormControl isRequired>
                                 <FormLabel htmlFor="hometown">Hometown</FormLabel>
                                 <Input
@@ -150,7 +154,7 @@ export default function NewCustomerData(props) {
                                     onChange={(e) => handleChange(e, "localGovernmentArea")}
                                 >{lgaList}</Select>
                             </FormControl>
-                            <Divider/>
+                            <Divider />
                             <FormControl isRequired>
                                 <FormLabel htmlFor="address">Residential Address</FormLabel>
                                 <Input
@@ -187,6 +191,26 @@ export default function NewCustomerData(props) {
                                 >
                                     {stateList}
                                 </Select>
+                            </FormControl>
+                            {showPassport ? <Center><Box width="50%">
+                                <Image src={formDetails.passportPreview} alt="Customer Pasport" />
+                            </Box></Center> : null}
+                            <FormControl isRequired>
+                                <FormLabel htmlFor="passport">Passport Photograph</FormLabel>
+                                <Input
+                                    focusBorderColor="main.500"
+                                    type="file"
+                                    name="passport"
+                                    id="passport"
+                                    placeholder="Passport Photograph"
+                                    onChange={(e) => {
+                                        console.log(e.target.files[0]);
+                                        setFormDetails(prev => {
+                                            return { ...prev, passport: e.target.files[0], passportPreview: URL.createObjectURL(e.target.files[0]) }
+                                        });
+                                        setShowPassport(true);
+                                    }}
+                                />
                             </FormControl>
                         </Stack>
                         <Stack marginBottom="1rem">
