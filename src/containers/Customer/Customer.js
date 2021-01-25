@@ -50,6 +50,22 @@ export default function Customer(props) {
                             {customer.firstName}
                         </StatNumber>
                     </Stat>
+                    <Stat>
+                        <StatLabel>
+                            Middle Name
+                        </StatLabel>
+                        <StatNumber>
+                            {customer.middleName}
+                        </StatNumber>
+                    </Stat>
+                    <Stat>
+                        <StatLabel>
+                            Last Name
+                        </StatLabel>
+                        <StatNumber>
+                            {customer.lastName}
+                        </StatNumber>
+                    </Stat>
                 </StatGroup>
             </Box>
         </PageContent>
