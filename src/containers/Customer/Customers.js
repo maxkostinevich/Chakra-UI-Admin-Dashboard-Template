@@ -1,7 +1,7 @@
 import { Box, IconButton, Menu, MenuButton, MenuItem, MenuList, useToast } from "@chakra-ui/core";
 import React, { useContext, useEffect, useState } from "react";
 import { getCall } from "../../helpers/apiCall";
-import UserContext from "../../contexts/UserContext";
+import UseUserContext from "../../contexts/UserContext"
 import { PageContent } from "../Layout";
 import { Link, useHistory } from "react-router-dom";
 import { Table, Tbody, Thead, Tr, Td, Th } from "@chakra-ui/react";
@@ -12,7 +12,7 @@ import { FaEllipsisV } from "react-icons/fa";
 export default function Customers() {
     const [loading, setLoading] = useState(true);
     const [customers, setCustomers] = useState([]);
-    const { user } = useContext(UserContext);
+    const { user } = useContext(UseUserContext);
     const toast = useToast();
     const history = useHistory()
 

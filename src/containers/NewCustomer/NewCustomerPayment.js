@@ -1,24 +1,26 @@
 import { Box, Button, FormControl, FormLabel, Heading, Input, Select, Stack, useToast } from '@chakra-ui/core'
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { useHistory } from 'react-router-dom';
-import UserContext from '../../contexts/UserContext';
+import UseUserContext from '../../contexts/UserContext';
 import { postCall } from '../../helpers/apiCall';
-import { PageContainer, PageContent } from '../Layout'
+import { PageContainer, PageContent } from '../Layout';
+import banks from '../../helpers/banks.json'
 
 export default function NewCustomerPayment(props) {
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [formDetails, setFormDetails] = useState({
-        staffId: "",
-        mda: "",
-        gradeLevel: "",
-        dateOfFirstAppointment: "",
-        retirementDate: "",
+        bankName: "",
+        accountNumber: "",
     })
 
     const toast = useToast()
     const history = useHistory()
-    const { user } = useContext(UserContext);
+    const { user } = useContext(UseUserContext);
     const {id} = props.match.params
+
+    const bankList = banks.map((bank, i) => (
+        <option key={i}>{bank.name}</option>
+    ))
 
     const handleChange = (e, name) => {
         e.persist();
@@ -30,7 +32,7 @@ export default function NewCustomerPayment(props) {
     const handleFormSubmit = (e) => {
         e.preventDefault();
         setIsSubmitting(true);
-        postCall(`customer/employment/${id}`, formDetails, user.token).then(res => {
+        postCall(`customer/payment/${id}`, formDetails, user.token).then(res => {
             toast({ status: "success", title: res.message });
             history.push(`/customers/${id}`)
         }, err => {
@@ -43,7 +45,7 @@ export default function NewCustomerPayment(props) {
     };
     return (
         <PageContent
-            title="New Customer"
+            title="Customer Payment Details"
         >
             <PageContainer>
                 <Box
@@ -52,69 +54,33 @@ export default function NewCustomerPayment(props) {
                     rounded="lg"
                     p={5}
                 >
-                    <Heading marginBottom="1.5rem">Employment Details</Heading>
+                    <Heading marginBottom="1.5rem">Payment Details</Heading>
                     <form onSubmit={(e) => handleFormSubmit(e)}>
                         <Stack spacing={4} marginBottom="1rem">
                             <FormControl isRequired>
-                                <FormLabel htmlFor="staffId">Staff ID (BSN)</FormLabel>
-                                <Input
-                                    focusBorderColor="main.500"
-                                    type="text"
-                                    name="staffId"
-                                    id="staffId"
-                                    value={formDetails.staffId}
-                                    placeholder="Staff ID (BSN)"
-                                    onChange={(e) => handleChange(e, "staffId")}
-                                />
-                            </FormControl>
-                            <FormControl isRequired>
-                                <FormLabel htmlFor="gradeLevel">Grade Level</FormLabel>
+                                <FormLabel htmlFor="bankName">Bank Name</FormLabel>
                                 <Select
                                     focusBorderColor="main.500"
-                                    name="gradeLevel"
-                                    id="gradeLevel"
-                                    value={formDetails.gradeLevel}
-                                    placeholder="Grade Level"
-                                    onChange={(e) => handleChange(e, "gradeLevel")}>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
+                                    name="bankName"
+                                    id="bankName"
+                                    value={formDetails.bankName}
+                                    placeholder="Bank Name"
+                                    onChange={(e) => handleChange(e, "bankName")}
+                                >
+                                    {bankList}
                                 </Select>
                             </FormControl>
                             <FormControl isRequired>
-                                <FormLabel htmlFor="mda">MDA</FormLabel>
+                                <FormLabel htmlFor="accountNumber">Account Number</FormLabel>
                                 <Input
                                     focusBorderColor="main.500"
-                                    type="text"
-                                    name="mda"
-                                    id="mda"
-                                    value={formDetails.mda}
-                                    placeholder="MDA"
-                                    onChange={(e) => handleChange(e, "mda")}
-                                />
-                            </FormControl>
-                            <FormControl isRequired>
-                                <FormLabel htmlFor="dateOfFirstAppointment">Date of First Appointment</FormLabel>
-                                <Input
-                                    focusBorderColor="main.500"
-                                    type="date"
-                                    name="dateOfFirstAppointment"
-                                    id="dateOfFirstAppointment"
-                                    value={formDetails.dateOfFirstAppointment}
-                                    placeholder="Date of First Appointment"
-                                    onChange={(e) => handleChange(e, "dateOfFirstAppointment")}
-                                />
-                            </FormControl>
-                            <FormControl isRequired>
-                                <FormLabel htmlFor="retirementDate">Retirement Date</FormLabel>
-                                <Input
-                                    focusBorderColor="main.500"
-                                    type="date"
-                                    name="retirementDate"
-                                    id="retirementDate"
-                                    value={formDetails.retirementDate}
-                                    placeholder="Retirement Date"
-                                    onChange={(e) => handleChange(e, "retirementDate")}
-                                />
+                                    type="number"
+                                    name="accountNumber"
+                                    id="accountNumber"
+                                    value={formDetails.accountNumber}
+                                    placeholder="Account Number"
+                                    onChange={(e) => handleChange(e, "accountNumber")}>
+                                </Input>
                             </FormControl>
                         </Stack>
                         <Stack marginBottom="1rem">

@@ -1,7 +1,7 @@
 import { Box, Button, Center, Divider, FormControl, FormLabel, Heading, Input, Select, Stack, useToast } from '@chakra-ui/core'
 import React, { useState, useContext } from 'react'
 import { useHistory } from 'react-router-dom';
-import UserContext from '../../contexts/UserContext';
+import UseUserContext from '../../contexts/UserContext';
 import { postCall } from '../../helpers/apiCall';
 import { PageContainer, PageContent } from '../Layout'
 import states from '../../helpers/ng.states.json';
@@ -26,7 +26,7 @@ export default function NewCustomerData(props) {
     const [lga, setLga] = useState([])
     const toast = useToast()
     const history = useHistory()
-    const { user } = useContext(UserContext);
+    const { user } = useContext(UseUserContext);
     const { id } = props.match.params
 
     const stateList = states.states.map((state, index) => (
@@ -51,7 +51,7 @@ export default function NewCustomerData(props) {
         setIsSubmitting(true);
         postCall(`customer/data/${id}`, formDetails, user.token).then(res => {
             toast({ status: "success", title: res.message });
-            history.push(`/new-customer-employment/${id}`)
+            history.push(`/new-customer-passport/${id}`)
         }, err => {
             setIsSubmitting(false);
             toast({
@@ -191,26 +191,6 @@ export default function NewCustomerData(props) {
                                 >
                                     {stateList}
                                 </Select>
-                            </FormControl>
-                            {showPassport ? <Center><Box width="50%">
-                                <Image src={formDetails.passportPreview} alt="Customer Pasport" />
-                            </Box></Center> : null}
-                            <FormControl isRequired>
-                                <FormLabel htmlFor="passport">Passport Photograph</FormLabel>
-                                <Input
-                                    focusBorderColor="main.500"
-                                    type="file"
-                                    name="passport"
-                                    id="passport"
-                                    placeholder="Passport Photograph"
-                                    onChange={(e) => {
-                                        console.log(e.target.files[0]);
-                                        setFormDetails(prev => {
-                                            return { ...prev, passport: e.target.files[0], passportPreview: URL.createObjectURL(e.target.files[0]) }
-                                        });
-                                        setShowPassport(true);
-                                    }}
-                                />
                             </FormControl>
                         </Stack>
                         <Stack marginBottom="1rem">

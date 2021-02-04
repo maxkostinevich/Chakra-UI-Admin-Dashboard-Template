@@ -17,10 +17,10 @@ import {
 import { FaCog, FaChevronDown } from "react-icons/fa";
 
 import "./Layout.scss";
-import UserContext from "../../contexts/UserContext";
+import UseUserContext from "../../contexts/UserContext";
 
 export default function Nav() {
-  const { user } = useContext(UserContext);
+  const { user } = useContext(UseUserContext);
   return (
     <Flex
       position={{ md: "fixed" }}

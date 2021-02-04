@@ -1,7 +1,7 @@
 import jwtDecode from 'jwt-decode'
 import React, { useEffect, useState } from 'react'
 import { Route, Switch, useHistory } from 'react-router-dom'
-import UserContext from '../../contexts/UserContext'
+import UseUserContext from '../../contexts/UserContext'
 import Customer from '../Customer/Customer'
 import { Dashboard } from '../Dashboard'
 import { NewCustomer } from '../NewCustomer'
@@ -12,6 +12,7 @@ import Footer from './Footer'
 import Nav from './Nav'
 import PageContainer from './PageContainer'
 import Customers from '../Customer/Customers'
+import NewCustomerPassport from '../NewCustomer/NewCustomerPassport'
 
 export default function DashboardLayout() {
     const [user, setUser] = useState({
@@ -56,7 +57,7 @@ export default function DashboardLayout() {
 
     return (
         <PageContainer isFixedNav>
-            <UserContext.Provider value={{ user, setUser }}>
+            <UseUserContext.Provider value={{ user, setUser }}>
                 <Nav />
                 <Switch>
                     <Route exact path="/" component={Dashboard} />
@@ -64,11 +65,12 @@ export default function DashboardLayout() {
                     <Route exact path="/customers/:id" component={Customer} />
                     <Route exact path="/new-customer" component={NewCustomer} />
                     <Route exact path="/new-customer-data/:id" component={NewCustomerData} />
+                    <Route exact path="/new-customer-passport/:id" component={NewCustomerPassport} />
                     <Route exact path="/new-customer-employment/:id" component={NewCustomerEmployment} />
                     <Route exact path="/new-customer-payment/:id" component={NewCustomerPayment} />
                 </Switch>
                 <Footer />
-            </UserContext.Provider>
+            </UseUserContext.Provider>
         </PageContainer>
     )
 }

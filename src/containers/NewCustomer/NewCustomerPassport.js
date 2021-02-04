@@ -1,27 +1,41 @@
-import { Stack, useToast } from '@chakra-ui/core'
-import { Box } from '@chakra-ui/react'
+import { Center, FormControl, Stack, useToast, Heading, Button } from '@chakra-ui/core'
+import { Box, Input, Image, FormLabel } from '@chakra-ui/react'
+import axios from 'axios'
 import React, { useContext, useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { PageContent } from '../Layout'
+import UseUserContext from '../../contexts/UserContext'
+import { postCall } from '../../helpers/apiCall'
+import { PageContainer, PageContent } from '../Layout'
 
-export default function NewCustomerPassport() {
+export default function NewCustomerPassport(props) {
     const [isSubmitting, setIsSubmitting] = useState(false)
     const toast = useToast()
     const history = useHistory()
-    const { user } = useContext(UserContext);
+    const { user } = useContext(UseUserContext);
     const { id } = props.match.params;
+    const [passport, setPassport] = useState("")
+    const [passportPreview, setPassportPreview] = useState("")
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
         setIsSubmitting(true);
-        postCall(`customer/data/${id}`, formDetails, user.token).then(res => {
-            toast({ status: "success", title: res.message });
-            history.push(`/new-customer-employment/${id}`)
-        }, err => {
-            setIsSubmitting(false);
+        const data = new FormData()
+        data.append('file', passport);
+        axios.post(`http://localhost:8080/api/customer/passport/${id}`, data, {
+            headers: {
+                Authorization: `Bearer ${user.token}`,
+                "Content-Type": "application/json"
+            }
+        }).then((res) => {
             toast({
-                title: err.message,
-                status: "error"
+                status: 'success',
+                title: res.data.response.message
+            });
+            history.push(`/new-customer-employment/${id}`);
+        }).catch(err => {
+            toast({
+                status: 'error',
+                title: err.data.response.message
             })
         })
     };
@@ -29,7 +43,7 @@ export default function NewCustomerPassport() {
         <PageContent
             title="Passport Photograph"
         >
-            <PageContent>
+            <PageContainer>
                 <Box
                     width={{ base: "90%", md: "400px" }}
                     bg="secondary.card"
@@ -39,9 +53,9 @@ export default function NewCustomerPassport() {
                     <Heading marginBottom="1.5rem">Passport Photograph</Heading>
                     <form onSubmit={(e) => handleFormSubmit(e)}>
                         <Stack spacing={4} marginBottom="1rem">
-                            {showPassport ? <Center><Box width="50%">
-                                <Image src={formDetails.passportPreview} alt="Customer Pasport" />
-                            </Box></Center> : null}
+                            {passportPreview && <Center><Box width="50%">
+                                <Image src={passportPreview} alt="Customer Pasport" />
+                            </Box></Center>}
                             <FormControl isRequired>
                                 <FormLabel htmlFor="passport">Passport Photograph</FormLabel>
                                 <Input
@@ -51,18 +65,25 @@ export default function NewCustomerPassport() {
                                     id="passport"
                                     placeholder="Passport Photograph"
                                     onChange={(e) => {
-                                        console.log(e.target.files[0]);
-                                        setFormDetails(prev => {
-                                            return { ...prev, passport: e.target.files[0], passportPreview: URL.createObjectURL(e.target.files[0]) }
-                                        });
-                                        setShowPassport(true);
+                                        setPassport(e.target.files[0]);
+                                        setPassportPreview(URL.createObjectURL(e.target.files[0]));
                                     }}
                                 />
                             </FormControl>
                         </Stack>
+                        <Stack marginBottom="1rem">
+                            <Button
+                                type="submit"
+                                isLoading={isSubmitting}
+                                loadingText="Please wait.."
+                                colorScheme="main"
+                            >
+                                Next
+                            </Button>
+                        </Stack>
                     </form>
                 </Box>
-            </PageContent>
+            </PageContainer>
         </PageContent>
     )
 }
