@@ -30,7 +30,7 @@ export default function Customers() {
     }, [user, toast])
 
 
-    let customerList = customers.filter(item => item.firstName.includes(searchQuery) || item.lastName.includes(searchQuery)  || item.email.includes(searchQuery) || item.phoneNumber.includes(searchQuery)).map((c, i) => (
+    let customerList = customers.filter(item => item.firstName.toLowerCase().includes(searchQuery.toLowerCase()) || item.lastName.toLowerCase().includes(searchQuery.toLowerCase())  || item.email.toLowerCase().includes(searchQuery.toLowerCase()) || item.phoneNumber.includes(searchQuery)).map((c, i) => (
         <Tr key={i}>
             <Td>{i + 1}</Td>
             <Td>{c.firstName}</Td>
