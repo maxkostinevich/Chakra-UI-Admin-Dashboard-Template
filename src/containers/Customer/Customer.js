@@ -68,7 +68,7 @@ export default function Customer(props) {
                         mb={4}
                     >
                         <GridItem colSpan="2">
-                            <Image src={`http://localhost:8080${customer.data.passportUrl}`} />
+                            <Image src={`http://localhost:8080/files/${customer.data.passportUrl}`} />
                         </GridItem>
                         <GridItem colSpan="6">
                             <Stack direction="row" mb={4}>
