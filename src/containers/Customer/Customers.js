@@ -1,4 +1,4 @@
-import { Box, IconButton, Menu, MenuButton, MenuItem, MenuList, useToast } from "@chakra-ui/core";
+import { Box, IconButton, Input, Menu, MenuButton, MenuItem, MenuList, useToast, FormControl } from "@chakra-ui/core";
 import React, { useContext, useEffect, useState } from "react";
 import { getCall } from "../../helpers/apiCall";
 import UseUserContext from "../../contexts/UserContext"
@@ -12,6 +12,7 @@ import { FaEllipsisV } from "react-icons/fa";
 export default function Customers() {
     const [loading, setLoading] = useState(true);
     const [customers, setCustomers] = useState([]);
+    const [searchQuery, setSearchQuery] = useState("");
     const { user } = useContext(UseUserContext);
     const toast = useToast();
     const history = useHistory()
@@ -27,34 +28,9 @@ export default function Customers() {
             })
         }
     }, [user, toast])
-    let headers = [
-        {
-            id: "sno",
-            title: "SN",
-        },
-        {
-            id: "firstName",
-            title: "First Name",
-        },
-        {
-            id: "lastName",
-            title: "Last Name",
-        },
-        {
-            id: "email",
-            title: "Email",
-        },
-        {
-            id: "phoneNumber",
-            title: "Phone Number",
-        },
-        {
-            id: "createdAt",
-            title: "Date Registered",
-        },
-    ];
 
-    let customerList = customers.map((c, i) => (
+
+    let customerList = customers.filter(item => item.firstName.includes(searchQuery) || item.lastName.includes(searchQuery)  || item.email.includes(searchQuery) || item.phoneNumber.includes(searchQuery)).map((c, i) => (
         <Tr key={i}>
             <Td>{i + 1}</Td>
             <Td>{c.firstName}</Td>
@@ -97,6 +73,11 @@ export default function Customers() {
                 }}
             >
                 <Box width="100%" bg={"secondary.card"} color={"gray.800"} rounded="lg" p={5}>
+                    <Box my={4} mx="auto" width={{ sm: "100%", md: "50%" }}>
+                        <FormControl>
+                            <Input type="text" placeholder="Search" focusBorderColor="main.500" onChange={(e) => setSearchQuery(e.target.value)} value={searchQuery} />
+                        </FormControl>
+                    </Box>
                     <Table className="chakra-ui-table">
                         <Thead>
                             <Tr>

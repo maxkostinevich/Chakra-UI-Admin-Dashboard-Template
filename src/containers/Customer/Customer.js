@@ -34,15 +34,30 @@ export default function Customer(props) {
         <PageContent
             title={customer.firstName + " " + customer.lastName}
             primaryAction={{
-                content: "Edit Customer Data",
+                content: "Edit Basic Info",
                 onClick: () => {
 
                 }
             }}
             secondaryActions={[
                 {
-                    content: "Edit Customer Employment"
-                }
+                    content: "Edit Data",
+                    onClick: () => {
+
+                    }
+                },
+                {
+                    content: "Edit Employment",
+                    onClick: () => {
+
+                    }
+                },
+                {
+                    content: "Edit Payment",
+                    onClick: () => {
+
+                    }
+                },
             ]}
         >
             <Box width="100%" bg={"secondary.card"} color={"gray.800"} rounded="lg" p={5}>
