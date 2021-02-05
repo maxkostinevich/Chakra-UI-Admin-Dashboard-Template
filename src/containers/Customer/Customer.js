@@ -139,218 +139,222 @@ export default function Customer(props) {
                     </Grid>
                     <Divider />
                     <Heading as="h5" mb={4}>Customer Data</Heading>
-                    <Stack direction="row" mb={4}>
-                        <FormControl isRequired>
-                            <FormLabel htmlFor="dateOfBirth">Date of Birth</FormLabel>
-                            <Input
-                                focusBorderColor="main.500"
-                                type="date"
-                                name="dateOfBirth"
-                                id="dateOfBirth"
-                                value={dayjs(customer.data.dateOfBirth).format('YYYY-MM-DD')}
-                                placeholder="Date of Birth"
-                                readOnly
-                            />
-                        </FormControl>
-                        <FormControl isRequired>
-                            <FormLabel htmlFor="gender">Gender</FormLabel>
-                            <Select
-                                focusBorderColor="main.500"
-                                name="gender"
-                                id="gender"
-                                value={customer.data.gender}
-                                placeholder="Gender"
-                                readOnly>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                            </Select>
-                        </FormControl>
-                        <FormControl isRequired>
-                            <FormLabel htmlFor="maritalStatus">Marital Status</FormLabel>
-                            <Select
-                                focusBorderColor="main.500"
-                                name="maritalStatus"
-                                id="maritalStatus"
-                                value={customer.data.maritalStatus}
-                                placeholder="Marital Status"
-                                readOnly>
-                                <option value="single">Single</option>
-                                <option value="married">Married</option>
-                                <option value="divorced">Divorced</option>
-                                <option value="widowed">Widowed</option>
-                            </Select>
-                        </FormControl>
-                    </Stack>
-                    <Stack direction="row" mb={4}>
-                        <FormControl isRequired>
-                            <FormLabel htmlFor="hometown">Hometown</FormLabel>
-                            <Input
-                                focusBorderColor="main.500"
-                                type="text"
-                                name="hometown"
-                                id="hometown"
-                                value={customer.data.hometown}
-                                placeholder="Hometown"
-                                readOnly
-                            />
-                        </FormControl>
-                        <FormControl isRequired>
-                            <FormLabel htmlFor="stateOfOrigin">State of Origin</FormLabel>
-                            <Input
-                                focusBorderColor="main.500"
-                                type="text"
-                                name="stateOfOrigin"
-                                id="stateOfOrigin"
-                                value={customer.data.stateOfOrigin}
-                                placeholder="State of Origin"
-                                readOnly
-                            />
-                        </FormControl>
-                        <FormControl isRequired>
-                            <FormLabel htmlFor="email">Local Government Area</FormLabel>
-                            <Input
-                                focusBorderColor="main.500"
-                                type="text"
-                                name="localGovernmentArea"
-                                id="localGovernmentArea"
-                                value={customer.data.localGovernmentArea}
-                                placeholder="Local Government Area"
-                                readOnly
-                            />
-                        </FormControl>
-                    </Stack>
-                    <Stack direction="row" mb={4}>
-                        <FormControl isRequired>
-                            <FormLabel htmlFor="address">Residential Address</FormLabel>
-                            <Input
-                                focusBorderColor="main.500"
-                                type="text"
-                                name="address"
-                                id="address"
-                                value={customer.data.address}
-                                placeholder="Address"
-                                readOnly
-                            />
-                        </FormControl>
-                        <FormControl isRequired>
-                            <FormLabel htmlFor="city">City</FormLabel>
-                            <Input
-                                focusBorderColor="main.500"
-                                type="text"
-                                name="city"
-                                id="city"
-                                value={customer.data.city}
-                                placeholder="City"
-                                readOnly
-                            />
-                        </FormControl>
-                        <FormControl isRequired>
-                            <FormLabel htmlFor="state">State of Residence</FormLabel>
-                            <Input
-                                focusBorderColor="main.500"
-                                name="state"
-                                type="text"
-                                id="state"
-                                value={customer.data.state}
-                                placeholder="State"
-                                readOnly
-                            />
-                        </FormControl>
-                    </Stack>
+                    {customer.data && <>
+                        <Stack direction="row" mb={4}>
+                            <FormControl isRequired>
+                                <FormLabel htmlFor="dateOfBirth">Date of Birth</FormLabel>
+                                <Input
+                                    focusBorderColor="main.500"
+                                    type="date"
+                                    name="dateOfBirth"
+                                    id="dateOfBirth"
+                                    value={dayjs(customer.data.dateOfBirth).format('YYYY-MM-DD')}
+                                    placeholder="Date of Birth"
+                                    readOnly
+                                />
+                            </FormControl>
+                            <FormControl isRequired>
+                                <FormLabel htmlFor="gender">Gender</FormLabel>
+                                <Select
+                                    focusBorderColor="main.500"
+                                    name="gender"
+                                    id="gender"
+                                    value={customer.data.gender}
+                                    placeholder="Gender"
+                                    readOnly>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </Select>
+                            </FormControl>
+                            <FormControl isRequired>
+                                <FormLabel htmlFor="maritalStatus">Marital Status</FormLabel>
+                                <Select
+                                    focusBorderColor="main.500"
+                                    name="maritalStatus"
+                                    id="maritalStatus"
+                                    value={customer.data.maritalStatus}
+                                    placeholder="Marital Status"
+                                    readOnly>
+                                    <option value="single">Single</option>
+                                    <option value="married">Married</option>
+                                    <option value="divorced">Divorced</option>
+                                    <option value="widowed">Widowed</option>
+                                </Select>
+                            </FormControl>
+                        </Stack>
+                        <Stack direction="row" mb={4}>
+                            <FormControl isRequired>
+                                <FormLabel htmlFor="hometown">Hometown</FormLabel>
+                                <Input
+                                    focusBorderColor="main.500"
+                                    type="text"
+                                    name="hometown"
+                                    id="hometown"
+                                    value={customer.data.hometown}
+                                    placeholder="Hometown"
+                                    readOnly
+                                />
+                            </FormControl>
+                            <FormControl isRequired>
+                                <FormLabel htmlFor="stateOfOrigin">State of Origin</FormLabel>
+                                <Input
+                                    focusBorderColor="main.500"
+                                    type="text"
+                                    name="stateOfOrigin"
+                                    id="stateOfOrigin"
+                                    value={customer.data.stateOfOrigin}
+                                    placeholder="State of Origin"
+                                    readOnly
+                                />
+                            </FormControl>
+                            <FormControl isRequired>
+                                <FormLabel htmlFor="email">Local Government Area</FormLabel>
+                                <Input
+                                    focusBorderColor="main.500"
+                                    type="text"
+                                    name="localGovernmentArea"
+                                    id="localGovernmentArea"
+                                    value={customer.data.localGovernmentArea}
+                                    placeholder="Local Government Area"
+                                    readOnly
+                                />
+                            </FormControl>
+                        </Stack>
+                        <Stack direction="row" mb={4}>
+                            <FormControl isRequired>
+                                <FormLabel htmlFor="address">Residential Address</FormLabel>
+                                <Input
+                                    focusBorderColor="main.500"
+                                    type="text"
+                                    name="address"
+                                    id="address"
+                                    value={customer.data.address}
+                                    placeholder="Address"
+                                    readOnly
+                                />
+                            </FormControl>
+                            <FormControl isRequired>
+                                <FormLabel htmlFor="city">City</FormLabel>
+                                <Input
+                                    focusBorderColor="main.500"
+                                    type="text"
+                                    name="city"
+                                    id="city"
+                                    value={customer.data.city}
+                                    placeholder="City"
+                                    readOnly
+                                />
+                            </FormControl>
+                            <FormControl isRequired>
+                                <FormLabel htmlFor="state">State of Residence</FormLabel>
+                                <Input
+                                    focusBorderColor="main.500"
+                                    name="state"
+                                    type="text"
+                                    id="state"
+                                    value={customer.data.state}
+                                    placeholder="State"
+                                    readOnly
+                                />
+                            </FormControl>
+                        </Stack>
+                    </>}
                     <Divider />
                     <Heading as="h5" mb={4}>Customer Employment</Heading>
-                    <Stack direction="row" mb={4}>
-                        <FormControl isRequired>
-                            <FormLabel htmlFor="staffId">Staff ID (BSN)</FormLabel>
-                            <Input
-                                focusBorderColor="main.500"
-                                type="text"
-                                name="staffId"
-                                id="staffId"
-                                value={customer.employment.staffId}
-                                placeholder="Staff ID (BSN)"
-                                readOnly
-                            />
-                        </FormControl>
-                        <FormControl isRequired>
-                            <FormLabel htmlFor="salaryGrade">Salary Grade</FormLabel>
-                            <Input
-                                focusBorderColor="main.500"
-                                type="text"
-                                name="salaryGrade"
-                                id="salaryGrade"
-                                value={customer.employment.gradeLevel}
-                                placeholder="Salary Grade"
-                                readOnly
-                            />
-                        </FormControl>
-                        <FormControl isRequired>
-                            <FormLabel htmlFor="mda">MDA</FormLabel>
-                            <Input
-                                focusBorderColor="main.500"
-                                type="text"
-                                name="mda"
-                                id="mda"
-                                value={customer.employment.mda}
-                                placeholder="MDA"
-                                readOnly
-                            />
-                        </FormControl>
-                    </Stack>
-                    <Stack direction="row" mb={4}>
-                        <FormControl isRequired>
-                            <FormLabel htmlFor="dateOfFirstAppointment">Date of First Appointment</FormLabel>
-                            <Input
-                                focusBorderColor="main.500"
-                                type="date"
-                                name="dateOfFirstAppointment"
-                                id="dateOfFirstAppointment"
-                                value={dayjs(customer.employment.dateOfFirstAppointment).format('YYYY-MM-DD')}
-                                placeholder="Date of First Appointment"
-                                readOnly
-                            />
-                        </FormControl>
-                        <FormControl isRequired>
-                            <FormLabel htmlFor="retirementDate">Retirement Date</FormLabel>
-                            <Input
-                                focusBorderColor="main.500"
-                                type="date"
-                                name="retirementDate"
-                                id="retirementDate"
-                                value={dayjs(customer.employment.retirementDate).format('YYYY-MM-DD')}
-                                placeholder="Retirement Date"
-                                readOnly
-                            />
-                        </FormControl>
-                    </Stack>
+                    {customer.employment && <>
+                        <Stack direction="row" mb={4}>
+                            <FormControl isRequired>
+                                <FormLabel htmlFor="staffId">Staff ID (BSN)</FormLabel>
+                                <Input
+                                    focusBorderColor="main.500"
+                                    type="text"
+                                    name="staffId"
+                                    id="staffId"
+                                    value={customer.employment.staffId}
+                                    placeholder="Staff ID (BSN)"
+                                    readOnly
+                                />
+                            </FormControl>
+                            <FormControl isRequired>
+                                <FormLabel htmlFor="salaryGrade">Salary Grade</FormLabel>
+                                <Input
+                                    focusBorderColor="main.500"
+                                    type="text"
+                                    name="salaryGrade"
+                                    id="salaryGrade"
+                                    value={customer.employment.gradeLevel}
+                                    placeholder="Salary Grade"
+                                    readOnly
+                                />
+                            </FormControl>
+                            <FormControl isRequired>
+                                <FormLabel htmlFor="mda">MDA</FormLabel>
+                                <Input
+                                    focusBorderColor="main.500"
+                                    type="text"
+                                    name="mda"
+                                    id="mda"
+                                    value={customer.employment.mda}
+                                    placeholder="MDA"
+                                    readOnly
+                                />
+                            </FormControl>
+                        </Stack>
+                        <Stack direction="row" mb={4}>
+                            <FormControl isRequired>
+                                <FormLabel htmlFor="dateOfFirstAppointment">Date of First Appointment</FormLabel>
+                                <Input
+                                    focusBorderColor="main.500"
+                                    type="date"
+                                    name="dateOfFirstAppointment"
+                                    id="dateOfFirstAppointment"
+                                    value={dayjs(customer.employment.dateOfFirstAppointment).format('YYYY-MM-DD')}
+                                    placeholder="Date of First Appointment"
+                                    readOnly
+                                />
+                            </FormControl>
+                            <FormControl isRequired>
+                                <FormLabel htmlFor="retirementDate">Retirement Date</FormLabel>
+                                <Input
+                                    focusBorderColor="main.500"
+                                    type="date"
+                                    name="retirementDate"
+                                    id="retirementDate"
+                                    value={dayjs(customer.employment.retirementDate).format('YYYY-MM-DD')}
+                                    placeholder="Retirement Date"
+                                    readOnly
+                                />
+                            </FormControl>
+                        </Stack></>}
                     <Divider />
                     <Heading as="h5" mb={4}>Customer Payment</Heading>
-                    <Stack direction="row" mb={4}>
-                        <FormControl isRequired>
-                            <FormLabel htmlFor="bankName">Bank Name</FormLabel>
-                            <Input
-                                focusBorderColor="main.500"
-                                name="bankName"
-                                type="text"
-                                id="bankName"
-                                value={customer.payment.bankName}
-                                placeholder="Bank Name"
-                                readOnly
-                            />
-                        </FormControl>
-                        <FormControl isRequired>
-                            <FormLabel htmlFor="accountNumber">Account Number</FormLabel>
-                            <Input
-                                focusBorderColor="main.500"
-                                type="number"
-                                name="accountNumber"
-                                id="accountNumber"
-                                value={customer.payment.accountNumber}
-                                placeholder="Account Number"
-                                readOnly>
-                            </Input>
-                        </FormControl>
-                    </Stack>
+                    {customer.payment && <>
+                        <Stack direction="row" mb={4}>
+                            <FormControl isRequired>
+                                <FormLabel htmlFor="bankName">Bank Name</FormLabel>
+                                <Input
+                                    focusBorderColor="main.500"
+                                    name="bankName"
+                                    type="text"
+                                    id="bankName"
+                                    value={customer.payment.bankName}
+                                    placeholder="Bank Name"
+                                    readOnly
+                                />
+                            </FormControl>
+                            <FormControl isRequired>
+                                <FormLabel htmlFor="accountNumber">Account Number</FormLabel>
+                                <Input
+                                    focusBorderColor="main.500"
+                                    type="number"
+                                    name="accountNumber"
+                                    id="accountNumber"
+                                    value={customer.payment.accountNumber}
+                                    placeholder="Account Number"
+                                    readOnly>
+                                </Input>
+                            </FormControl>
+                        </Stack></>}
                 </form>
             </Box>
         </PageContent>
