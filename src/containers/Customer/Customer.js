@@ -33,32 +33,32 @@ export default function Customer(props) {
     return (
         <PageContent
             title={customer.firstName + " " + customer.lastName}
-            primaryAction={{
-                content: "Edit Basic Info",
-                onClick: () => {
+        // primaryAction={{
+        //     content: "Edit Basic Info",
+        //     onClick: () => {
 
-                }
-            }}
-            secondaryActions={[
-                {
-                    content: "Edit Data",
-                    onClick: () => {
+        //     }
+        // }}
+        // secondaryActions={[
+        //     {
+        //         content: "Edit Data",
+        //         onClick: () => {
 
-                    }
-                },
-                {
-                    content: "Edit Employment",
-                    onClick: () => {
+        //         }
+        //     },
+        //     {
+        //         content: "Edit Employment",
+        //         onClick: () => {
 
-                    }
-                },
-                {
-                    content: "Edit Payment",
-                    onClick: () => {
+        //         }
+        //     },
+        //     {
+        //         content: "Edit Payment",
+        //         onClick: () => {
 
-                    }
-                },
-            ]}
+        //         }
+        //     },
+        // ]}
         >
             <Box width="100%" bg={"secondary.card"} color={"gray.800"} rounded="lg" p={5}>
                 <form>
@@ -84,18 +84,7 @@ export default function Customer(props) {
                                         readOnly
                                     />
                                 </FormControl>
-                                <FormControl>
-                                    <FormLabel htmlFor="middleName">Middle Name</FormLabel>
-                                    <Input
-                                        focusBorderColor="main.500"
-                                        type="text"
-                                        name="middleName"
-                                        id="middleName"
-                                        value={customer.middleName}
-                                        placeholder="Middle Name"
-                                        readOnly
-                                    />
-                                </FormControl>
+
                                 <FormControl isRequired>
                                     <FormLabel htmlFor="lastName">Last Name</FormLabel>
                                     <Input
@@ -110,6 +99,18 @@ export default function Customer(props) {
                                 </FormControl>
                             </Stack>
                             <Stack direction="row" mb={4}>
+                                <FormControl>
+                                    <FormLabel htmlFor="middleName">Middle Name</FormLabel>
+                                    <Input
+                                        focusBorderColor="main.500"
+                                        type="text"
+                                        name="middleName"
+                                        id="middleName"
+                                        value={customer.middleName}
+                                        placeholder="Middle Name"
+                                        readOnly
+                                    />
+                                </FormControl>
                                 <FormControl isRequired>
                                     <FormLabel htmlFor="phoneNumber">Phone Number</FormLabel>
                                     <Input
@@ -122,7 +123,7 @@ export default function Customer(props) {
                                         readOnly
                                     />
                                 </FormControl>
-                                <FormControl isRequired>
+                                {/* <FormControl isRequired>
                                     <FormLabel htmlFor="email">Email Address</FormLabel>
                                     <Input
                                         focusBorderColor="main.500"
@@ -133,7 +134,7 @@ export default function Customer(props) {
                                         placeholder="Email"
                                         readOnly
                                     />
-                                </FormControl>
+                                </FormControl> */}
                             </Stack>
                         </GridItem>
                     </Grid>
@@ -166,7 +167,7 @@ export default function Customer(props) {
                                     <option value="female">Female</option>
                                 </Select>
                             </FormControl>
-                            <FormControl isRequired>
+                            {/* <FormControl isRequired>
                                 <FormLabel htmlFor="maritalStatus">Marital Status</FormLabel>
                                 <Select
                                     focusBorderColor="main.500"
@@ -180,9 +181,9 @@ export default function Customer(props) {
                                     <option value="divorced">Divorced</option>
                                     <option value="widowed">Widowed</option>
                                 </Select>
-                            </FormControl>
+                            </FormControl> */}
                         </Stack>
-                        <Stack direction="row" mb={4}>
+                        {/* <Stack direction="row" mb={4}>
                             <FormControl isRequired>
                                 <FormLabel htmlFor="hometown">Hometown</FormLabel>
                                 <Input
@@ -219,7 +220,7 @@ export default function Customer(props) {
                                     readOnly
                                 />
                             </FormControl>
-                        </Stack>
+                        </Stack> 
                         <Stack direction="row" mb={4}>
                             <FormControl isRequired>
                                 <FormLabel htmlFor="address">Residential Address</FormLabel>
@@ -257,7 +258,7 @@ export default function Customer(props) {
                                     readOnly
                                 />
                             </FormControl>
-                        </Stack>
+                        </Stack>*/}
                     </>}
                     <Divider />
                     <Heading as="h5" mb={4}>Customer Employment</Heading>
@@ -275,18 +276,7 @@ export default function Customer(props) {
                                     readOnly
                                 />
                             </FormControl>
-                            <FormControl isRequired>
-                                <FormLabel htmlFor="salaryGrade">Salary Grade</FormLabel>
-                                <Input
-                                    focusBorderColor="main.500"
-                                    type="text"
-                                    name="salaryGrade"
-                                    id="salaryGrade"
-                                    value={customer.employment.gradeLevel}
-                                    placeholder="Salary Grade"
-                                    readOnly
-                                />
-                            </FormControl>
+
                             <FormControl isRequired>
                                 <FormLabel htmlFor="mda">MDA</FormLabel>
                                 <Input
@@ -301,7 +291,7 @@ export default function Customer(props) {
                             </FormControl>
                         </Stack>
                         <Stack direction="row" mb={4}>
-                            <FormControl isRequired>
+                            {/* <FormControl isRequired>
                                 <FormLabel htmlFor="dateOfFirstAppointment">Date of First Appointment</FormLabel>
                                 <Input
                                     focusBorderColor="main.500"
@@ -310,6 +300,18 @@ export default function Customer(props) {
                                     id="dateOfFirstAppointment"
                                     value={dayjs(customer.employment.dateOfFirstAppointment).format('YYYY-MM-DD')}
                                     placeholder="Date of First Appointment"
+                                    readOnly
+                                />
+                            </FormControl> */}
+                            <FormControl isRequired>
+                                <FormLabel htmlFor="salaryGrade">Salary Grade</FormLabel>
+                                <Input
+                                    focusBorderColor="main.500"
+                                    type="text"
+                                    name="salaryGrade"
+                                    id="salaryGrade"
+                                    value={customer.employment.gradeLevel}
+                                    placeholder="Salary Grade"
                                     readOnly
                                 />
                             </FormControl>
@@ -355,6 +357,72 @@ export default function Customer(props) {
                                 </Input>
                             </FormControl>
                         </Stack></>}
+                    <Divider />
+                    <Heading as="h5" mb={4}>Loan Details</Heading>
+                    <Stack direction="row" mb={4}>
+                        <FormControl isRequired>
+                            <FormLabel htmlFor="amount">Loan Amount</FormLabel>
+                            <Input
+                                focusBorderColor="main.500"
+                                name="amount"
+                                type="text"
+                                id="amount"
+                                value={(200000).toLocaleString("en-NG", { style: "currency", currency: "NGN" })}
+                                placeholder="Loan Amount"
+                                readOnly
+                            />
+                        </FormControl>
+                        <FormControl isRequired>
+                            <FormLabel htmlFor="deductions">Deductions Made</FormLabel>
+                            <Input
+                                focusBorderColor="main.500"
+                                name="deductions"
+                                type="text"
+                                id="deductions"
+                                value={(50000).toLocaleString("en-NG", { style: "currency", currency: "NGN" })}
+                                placeholder="Deductions Made"
+                                readOnly
+                            />
+                        </FormControl>
+                        <FormControl isRequired>
+                            <FormLabel htmlFor="tenure">Tenure</FormLabel>
+                            <Input
+                                focusBorderColor="main.500"
+                                type="text"
+                                name="tenure"
+                                id="tenure"
+                                value="10 Months"
+                                placeholder="Tenure"
+                                readOnly>
+                            </Input>
+                        </FormControl>
+                    </Stack>
+                    <Stack direction="row" mb={4}>
+                        <FormControl isRequired>
+                            <FormLabel htmlFor="startDate">Start Date</FormLabel>
+                            <Input
+                                focusBorderColor="main.500"
+                                type="date"
+                                name="startDate"
+                                id="startDate"
+                                value="2020-01-01"
+                                placeholder="Start Date"
+                                readOnly>
+                            </Input>
+                        </FormControl>
+                        <FormControl isRequired>
+                            <FormLabel htmlFor="endDate">End Date</FormLabel>
+                            <Input
+                                focusBorderColor="main.500"
+                                type="date"
+                                name="endDate"
+                                id="endDate"
+                                value="2020-10-01"
+                                placeholder="End Date"
+                                readOnly>
+                            </Input>
+                        </FormControl>
+                    </Stack>
                 </form>
             </Box>
         </PageContent>
