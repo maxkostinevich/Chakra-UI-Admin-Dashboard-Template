@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom';
 import UseUserContext from '../../contexts/UserContext';
 import { getCall, postCall } from '../../helpers/apiCall';
 import { PageContainer, PageContent } from '../Layout'
+import mda from "../../helpers/mda.json";
 
 export default function NewCustomerEmployment(props) {
     const [isSubmitting, setIsSubmitting] = useState(false)
@@ -51,6 +52,10 @@ export default function NewCustomerEmployment(props) {
             return { ...prev, retirementDate: dayjs(retirementDate).format('YYYY-MM-DD') }
         });
     }
+
+    const mdaList = mda.map((mda, index) => (
+        <option key={index} value={mda}>{mda}</option>
+    ))
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
@@ -180,15 +185,16 @@ export default function NewCustomerEmployment(props) {
                             <Divider />
                             <FormControl isRequired>
                                 <FormLabel htmlFor="mda">MDA</FormLabel>
-                                <Input
+                                <Select
                                     focusBorderColor="main.500"
-                                    type="text"
                                     name="mda"
                                     id="mda"
                                     value={formDetails.mda}
                                     placeholder="MDA"
                                     onChange={(e) => handleChange(e, "mda")}
-                                />
+                                >
+                                    {mdaList}
+                                </Select>
                             </FormControl>
                             <FormControl isRequired>
                                 <FormLabel htmlFor="dateOfFirstAppointment">Date of First Appointment</FormLabel>
