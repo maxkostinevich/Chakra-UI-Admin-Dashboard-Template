@@ -22,9 +22,6 @@ export default function Customer(props) {
         }
     }, [user, id])
 
-    const handleBasicDataChange = () => {
-
-    }
     if (loading) {
         return (<PageContent>
             <Heading as="h3">Loading...</Heading>

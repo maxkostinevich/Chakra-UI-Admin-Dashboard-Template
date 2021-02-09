@@ -1,5 +1,5 @@
 import { Box, Button, FormControl, FormLabel, Heading, Input, Select, Stack, useToast } from '@chakra-ui/core'
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext } from 'react'
 import { useHistory } from 'react-router-dom';
 import UseUserContext from '../../contexts/UserContext';
 import { postCall } from '../../helpers/apiCall';

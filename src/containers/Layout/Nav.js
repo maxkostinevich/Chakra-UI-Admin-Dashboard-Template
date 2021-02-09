@@ -44,7 +44,7 @@ export default function Nav() {
           </Text>
           <Stack direction={["column", "row"]} style={{ marginLeft: "5rem" }}>
             <Button colorScheme="navItem" variant="ghost">
-              <Link href="/admin/dashboard">Home</Link>
+              <Link href="/">Home</Link>
             </Button>
             <Menu>
               <MenuButton

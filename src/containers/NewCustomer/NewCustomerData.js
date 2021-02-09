@@ -1,11 +1,10 @@
-import { Box, Button, Center, Divider, FormControl, FormLabel, Heading, Input, Select, Stack, useToast } from '@chakra-ui/core'
+import { Box, Button, Divider, FormControl, FormLabel, Heading, Input, Select, Stack, useToast } from '@chakra-ui/core'
 import React, { useState, useContext } from 'react'
 import { useHistory } from 'react-router-dom';
 import UseUserContext from '../../contexts/UserContext';
 import { postCall } from '../../helpers/apiCall';
 import { PageContainer, PageContent } from '../Layout'
 import states from '../../helpers/ng.states.json';
-import { Image } from '@chakra-ui/react';
 
 export default function NewCustomerData(props) {
     const [isSubmitting, setIsSubmitting] = useState(false)
@@ -22,7 +21,6 @@ export default function NewCustomerData(props) {
         passport: {},
         passportPreview: ""
     })
-    const [showPassport, setShowPassport] = useState(false);
     const [lga, setLga] = useState([])
     const toast = useToast()
     const history = useHistory()

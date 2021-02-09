@@ -4,7 +4,6 @@ import axios from 'axios'
 import React, { useContext, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import UseUserContext from '../../contexts/UserContext'
-import { postCall } from '../../helpers/apiCall'
 import { PageContainer, PageContent } from '../Layout'
 
 export default function NewCustomerPassport(props) {
