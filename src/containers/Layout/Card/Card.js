@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Stack, Button, Select, Heading } from "@chakra-ui/core";
+import { Box, Stack, Button, Select, Heading } from "@chakra-ui/react";
 
 import "./Card.scss";
 
@@ -11,7 +11,7 @@ export default function Card({
   filterActions = null,
   bg = "secondary.card",
   color = "gray.800",
-  children,
+  children
 }) {
   let actions = [];
 

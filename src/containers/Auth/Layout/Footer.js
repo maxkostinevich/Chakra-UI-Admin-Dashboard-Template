@@ -1,5 +1,5 @@
 import React from "react";
-import { Stack, Link, Text } from "@chakra-ui/core";
+import { Stack, Link, Text } from "@chakra-ui/react";
 
 import "./Layout.scss";
 

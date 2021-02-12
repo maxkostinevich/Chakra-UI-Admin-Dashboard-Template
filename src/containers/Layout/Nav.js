@@ -13,8 +13,8 @@ import {
   MenuDivider,
   MenuGroup,
   MenuList,
-  MenuButton,
-} from "@chakra-ui/core";
+  MenuButton
+} from "@chakra-ui/react";
 
 import { FaCog, FaChevronDown } from "react-icons/fa";
 

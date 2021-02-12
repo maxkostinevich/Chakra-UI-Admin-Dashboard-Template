@@ -11,8 +11,8 @@ import {
   Text,
   Flex,
   Icon,
-  Badge,
-} from "@chakra-ui/core";
+  Badge
+} from "@chakra-ui/react";
 
 import { FaChevronUp, FaChevronDown } from "react-icons/fa";
 
@@ -30,21 +30,21 @@ export default function Dashboard() {
           content: "Create report",
           onClick: () => {
             alert("ok");
-          },
+          }
         }}
         secondaryActions={[
           {
             content: "Second action",
             onClick: () => {
               alert("ok");
-            },
+            }
           },
           {
             content: "Third action",
             onClick: () => {
               alert("ok");
-            },
-          },
+            }
+          }
         ]}
       >
         <SimpleGrid columns={{ sm: 1, md: 2 }} spacing={10}>
@@ -58,13 +58,13 @@ export default function Dashboard() {
                 items: {
                   "1_week": "Last week",
                   "2_weeks": "Last 14 days",
-                  "30_days": "30 Days",
+                  "30_days": "30 Days"
                 },
 
                 onChange: () => {
                   alert("ok");
-                },
-              },
+                }
+              }
             ]}
           >
             <Flex alignItems="center" justifyContent="space-between">
@@ -95,15 +95,15 @@ export default function Dashboard() {
               content: "Create report",
               onClick: () => {
                 alert("ok");
-              },
+              }
             }}
             secondaryActions={[
               {
                 content: "Second action",
                 onClick: () => {
                   alert("ok");
-                },
-              },
+                }
+              }
             ]}
           >
             Card Content

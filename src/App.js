@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ChakraProvider, Box, Select, Text } from "@chakra-ui/core";
+import { ChakraProvider, Box, Select, Text } from "@chakra-ui/react";
 
 import theme from "./theme";
 
@@ -7,7 +7,7 @@ import {
   Login,
   Register,
   PasswordReset,
-  PasswordConfirm,
+  PasswordConfirm
 } from "./containers/Auth";
 
 import { Dashboard } from "./containers/Dashboard";
