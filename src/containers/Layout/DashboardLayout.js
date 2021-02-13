@@ -13,6 +13,9 @@ import Nav from './Nav'
 import PageContainer from './PageContainer'
 import Customers from '../Customer/Customers'
 import NewCustomerPassport from '../NewCustomer/NewCustomerPassport'
+import NewApplication from '../NewApplication/NewApplication'
+import NewGuarantor from '../NewApplication/NewGuarantor'
+import FileUploads from '../NewApplication/FileUploads'
 
 export default function DashboardLayout() {
     const [user, setUser] = useState({
@@ -68,6 +71,10 @@ export default function DashboardLayout() {
                     <Route exact path="/new-customer-passport/:id" component={NewCustomerPassport} />
                     <Route exact path="/new-customer-employment/:id" component={NewCustomerEmployment} />
                     <Route exact path="/new-customer-payment/:id" component={NewCustomerPayment} />
+                    <Route exact path="/applications" component={NewCustomer} />
+                    <Route exact path="/customers/:id/new-application" component={NewApplication} />
+                    <Route exact path="/new-application-guarantor/:id" component={NewGuarantor} />
+                    <Route exact path="/new-application-uploads/:id" component={FileUploads} />
                 </Switch>
                 <Footer />
             </UseUserContext.Provider>

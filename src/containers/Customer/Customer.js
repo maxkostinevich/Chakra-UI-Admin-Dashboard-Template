@@ -3,6 +3,7 @@ import { Stack } from '@chakra-ui/core';
 import dayjs from 'dayjs';
 // import { Box } from '@chakra-ui/react';
 import React, { useContext, useEffect, useState } from 'react'
+import { useHistory } from 'react-router-dom';
 import UseUserContext from '../../contexts/UserContext';
 import { getCall } from '../../helpers/apiCall';
 import { PageContent } from '../Layout'
@@ -12,6 +13,7 @@ export default function Customer(props) {
     const { user } = useContext(UseUserContext);
     const [customer, setCustomer] = useState({})
     const [loading, setLoading] = useState(true);
+    const history = useHistory();
     useEffect(() => {
         if (user.firstName !== "") {
             getCall(`customer/${id}`, user.token).then(res => {
@@ -30,12 +32,12 @@ export default function Customer(props) {
     return (
         <PageContent
             title={customer.firstName + " " + customer.lastName}
-        // primaryAction={{
-        //     content: "Edit Basic Info",
-        //     onClick: () => {
-
-        //     }
-        // }}
+            primaryAction={{
+                content: "New Loan Application",
+                onClick: () => {
+                    history.push(`${id}/new-application`);
+                }
+            }}
         // secondaryActions={[
         //     {
         //         content: "Edit Data",

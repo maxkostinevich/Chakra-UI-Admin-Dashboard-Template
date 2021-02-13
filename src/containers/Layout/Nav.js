@@ -53,12 +53,12 @@ export default function Nav() {
                 variant="ghost"
                 rightIcon={<Icon as={FaChevronDown} color="navItem.500" />}
               >
-                Registration
+                Customers
               </MenuButton>
               <MenuList>
-                <MenuItem><Link href="/customers">View All</Link></MenuItem>
-                <MenuDivider />
                 <MenuItem><Link href="/new-customer">Add New</Link></MenuItem>
+                <MenuDivider />
+                <MenuItem><Link href="/customers">View All</Link></MenuItem>
               </MenuList>
             </Menu>
             <Menu>
@@ -68,14 +68,12 @@ export default function Nav() {
                 variant="ghost"
                 rightIcon={<Icon as={FaChevronDown} color="navItem.500" />}
               >
-                Approval
+                Applications
               </MenuButton>
               <MenuList>
-                <MenuItem><Link href="/loans">View All</Link></MenuItem>
-                <MenuItem><Link href="/loans/active">Active Loans</Link></MenuItem>
-                <MenuItem><Link href="/loans/applications">Loan Applications</Link></MenuItem>
+                <MenuItem><Link href="/new-application">New Application</Link></MenuItem>
                 <MenuDivider />
-                <MenuItem><Link href="/new-loan">New Application</Link></MenuItem>
+                <MenuItem><Link href="/applications">View All Applications</Link></MenuItem>
               </MenuList>
             </Menu>
             <Menu>
