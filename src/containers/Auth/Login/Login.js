@@ -13,8 +13,8 @@ import {
   Button,
   Divider,
   FormControl,
-  Heading,
-} from "@chakra-ui/core";
+  Heading
+} from "@chakra-ui/react";
 
 import { FaRegEnvelope, FaLock } from "react-icons/fa";
 

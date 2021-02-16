@@ -10,8 +10,8 @@ import {
   Button,
   Stack,
   Heading,
-  Select,
-} from "@chakra-ui/core";
+  Select
+} from "@chakra-ui/react";
 
 import { FaEllipsisV } from "react-icons/fa";
 
@@ -23,7 +23,7 @@ export default function Table({
   selected = [],
   selectable = false,
   bg = "secondary.card",
-  color = "gray.800",
+  color = "gray.800"
 }) {
   let itemsIds = items.map((item) => item.id);
   let [localSelected, setLocalSelected] = useState(selected);
