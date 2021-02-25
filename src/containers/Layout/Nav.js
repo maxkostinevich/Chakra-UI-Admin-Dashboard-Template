@@ -18,9 +18,11 @@ import { FaCog, FaChevronDown } from "react-icons/fa";
 
 import "./Layout.scss";
 import UseUserContext from "../../contexts/UserContext";
+import { Link as RouterLink, useHistory } from "react-router-dom";
 
 export default function Nav() {
   const { user } = useContext(UseUserContext);
+  const history = useHistory()
   return (
     <Flex
       position={{ md: "fixed" }}
@@ -109,10 +111,14 @@ export default function Nav() {
                 {user && <>
                   {user.role === "super-admin" ?
                     <>
-                      <MenuDivider />
-                      <MenuItem>Admin Users</MenuItem>
+                      <MenuItem onClick={() => history.push('/admin-users')}>Admin Users</MenuItem>
                     </> : null}
                 </>}
+                <MenuDivider />
+                <MenuItem onClick={() => {
+                  window.localStorage.removeItem('user');
+                  history.push('/login')
+                }}>Log Out</MenuItem>
               </MenuList>
             </Menu>
           </Stack>

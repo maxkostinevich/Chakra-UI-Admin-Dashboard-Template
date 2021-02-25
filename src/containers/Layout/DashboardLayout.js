@@ -16,6 +16,11 @@ import NewCustomerPassport from '../NewCustomer/NewCustomerPassport'
 import NewApplication from '../NewApplication/NewApplication'
 import NewGuarantor from '../NewApplication/NewGuarantor'
 import FileUploads from '../NewApplication/FileUploads'
+import Applications from '../Application/Applications'
+import Application from '../Application/Application'
+import AdminUsers from '../AdminUsers/AdminUsers'
+import NewAdminUser from '../AdminUsers/NewAdminUser'
+import ActivateAdmin from '../AdminUsers/ActivateAdmin'
 
 export default function DashboardLayout() {
     const [user, setUser] = useState({
@@ -64,6 +69,9 @@ export default function DashboardLayout() {
                 <Nav />
                 <Switch>
                     <Route exact path="/" component={Dashboard} />
+                    <Route exact path="/admin-users" component={AdminUsers} />
+                    <Route exact path="/new-admin-user" component={NewAdminUser} />
+                    <Route exact path="/activate-admin/:email" component={ActivateAdmin} />
                     <Route exact path="/customers/" component={Customers} />
                     <Route exact path="/customers/:id" component={Customer} />
                     <Route exact path="/new-customer" component={NewCustomer} />
@@ -71,7 +79,8 @@ export default function DashboardLayout() {
                     <Route exact path="/new-customer-passport/:id" component={NewCustomerPassport} />
                     <Route exact path="/new-customer-employment/:id" component={NewCustomerEmployment} />
                     <Route exact path="/new-customer-payment/:id" component={NewCustomerPayment} />
-                    <Route exact path="/applications" component={NewCustomer} />
+                    <Route exact path="/applications" component={Applications} />
+                    <Route exact path="/applications/:id" component={Application} />
                     <Route exact path="/customers/:id/new-application" component={NewApplication} />
                     <Route exact path="/new-application-guarantor/:id" component={NewGuarantor} />
                     <Route exact path="/new-application-uploads/:id" component={FileUploads} />

@@ -5,13 +5,14 @@ import UseUserContext from "../../contexts/UserContext"
 import { PageContent } from "../Layout";
 import { Link, useHistory } from "react-router-dom";
 import { Table, Tbody, Thead, Tr, Td, Th } from "@chakra-ui/react";
+import toCurrency from '../../helpers/toCurrency'
 
 import "../Layout/Table/Table.scss";
 import { FaEllipsisV } from "react-icons/fa";
 
-export default function Customers() {
+export default function Applications() {
     const [loading, setLoading] = useState(true);
-    const [customers, setCustomers] = useState([]);
+    const [applications, setApplications] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
     const { user } = useContext(UseUserContext);
     const toast = useToast();
@@ -19,9 +20,9 @@ export default function Customers() {
 
     useEffect(() => {
         if (user.firstName !== "") {
-            getCall("customer", user.token).then(res => {
+            getCall("application/view-all", user.token).then(res => {
                 console.log(res);
-                setCustomers(res.data);
+                setApplications(res.data);
                 setLoading(false);
             }, err => {
                 toast({ status: "error", title: err.message });
@@ -30,13 +31,14 @@ export default function Customers() {
     }, [user, toast])
 
 
-    let customerList = customers.filter(item => item.firstName.toLowerCase().includes(searchQuery.toLowerCase()) || item.lastName.toLowerCase().includes(searchQuery.toLowerCase())  || item.email.toLowerCase().includes(searchQuery.toLowerCase()) || item.phoneNumber.includes(searchQuery)).map((c, i) => (
+    let applicationList = applications.filter(item => item.customer.firstName.toLowerCase().includes(searchQuery.toLowerCase()) || item.customer.lastName.toLowerCase().includes(searchQuery.toLowerCase())  || item.customer.email.toLowerCase().includes(searchQuery.toLowerCase()) || item.customer.phoneNumber.includes(searchQuery)).map((c, i) => (
         <Tr key={i}>
             <Td>{i + 1}</Td>
-            <Td>{c.firstName}</Td>
-            <Td>{c.lastName}</Td>
-            <Td>{c.email}</Td>
-            <Td>{c.phoneNumber}</Td>
+            <Td>{c.customer.firstName}</Td>
+            <Td>{c.customer.lastName}</Td>
+            <Td>{toCurrency(c.amount, "NGN")}</Td>
+            <Td>{c.lineManagerApproval ? "Yes" : "No"}</Td>
+            <Td>{c.managerApproval ? "Yes" : "No"}</Td>
             <Td>{new Date(c.created).toLocaleDateString("en-NG")}</Td>
             <Td data-column="item-actions">
                 <Menu>
@@ -45,10 +47,7 @@ export default function Customers() {
                         icon={<FaEllipsisV />}
                     ></MenuButton>
                     <MenuList>
-                        <MenuItem as={Link} onClick={() => history.push(`/customers/${c.id}`)}>View</MenuItem>
-                        <MenuItem as={Link} onClick={() => history.push(`/customers/${c.id}/new-application`)}>New Application</MenuItem>
-                        <MenuItem>Edit</MenuItem>
-                        <MenuItem>Delete</MenuItem>
+                        <MenuItem as={Link} onClick={() => history.push(`/applications/${c.id}`)}>View</MenuItem>
                     </MenuList>
                 </Menu>
             </Td>
@@ -65,11 +64,11 @@ export default function Customers() {
     } else {
         return (
             <PageContent
-                title="Customers"
+                title="Applications"
                 primaryAction={{
-                    content: "Add Customer",
+                    content: "Add Application",
                     onClick: () => {
-                        history.push("/new-customer")
+                        history.push("/new-application")
                     },
                 }}
             >
@@ -85,13 +84,14 @@ export default function Customers() {
                                 <Th>SN</Th>
                                 <Th>First Name</Th>
                                 <Th>Last Name</Th>
-                                <Th>Email</Th>
-                                <Th>Phone Number</Th>
-                                <Th>Date Registered</Th>
+                                <Th>Amount</Th>
+                                <Th>Line Mgr Approval</Th>
+                                <Th>Mgr Approval</Th>
+                                <Th>App. Date</Th>
                             </Tr>
                         </Thead>
                         <Tbody>
-                            {customers.length < 1 ? <Td>No Customers Found</Td> : customerList}
+                            {applicationList.length < 1 ? <Tr><Td colSpan={8}>No Applications Found</Td></Tr> : applicationList}
                         </Tbody>
                     </Table>
                 </Box>

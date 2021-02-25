@@ -1,4 +1,5 @@
-import { Box, FormControl, FormLabel, Heading, Input, Stack, Select, useToast, Button, Divider } from '@chakra-ui/core'
+import { Box, FormControl, FormLabel, Heading, Input, Stack, Button, Divider,useToast } from '@chakra-ui/core'
+import axios from 'axios';
 import React, { useContext, useState } from 'react'
 import { useHistory } from 'react-router-dom';
 import UseUserContext from '../../contexts/UserContext';
@@ -13,6 +14,13 @@ export default function FileUploads(props) {
         verificationPrintout: "",
         letterOfIntroduction: "",
     })
+    const [uploadStatus, setUploadStatus] = useState({
+        firstAppointmentLetter: false,
+        confirmationLetter: false,
+        lastPaySlip: false,
+        verificationPrintout: false,
+        letterOfIntroduction: false
+    })
     const [isSubmitting, setIsSubmitting] = useState(false)
     const { id } = props.match.params;
     const toast = useToast();
@@ -22,8 +30,35 @@ export default function FileUploads(props) {
     const handleChange = (e, name) => {
         e.persist();
         setFormDetails(prev => {
-            return { ...prev, [name]: e.target.value }
+            return { ...prev, [name]: e.target.files[0] }
         });
+        setUploadStatus(prev => {
+            return { ...prev, [name]: false }
+        });
+    }
+
+    const handleFileUpload = (file) => {
+        const data = new FormData();
+        data.append('file', formDetails[file]);
+        axios.post(`http://localhost:8080/api/application/${id}/upload-document?document=${file}`, data, {
+            headers: {
+                Authorization: `Bearer ${user.token}`,
+                "Content-Type": "application/json"
+            }
+        }).then((res) => {
+            setUploadStatus(prev => {
+                return {...prev, [file]: true}
+            })
+            toast({
+                status: 'success',
+                title: res.data.response.message
+            });
+        }).catch(err => {
+            toast({
+                status: 'error',
+                title: err.data.response.message
+            })
+        })
     }
 
     const handleFormSubmit = (e) => {
@@ -58,17 +93,17 @@ export default function FileUploads(props) {
                                 <Input
                                     focusBorderColor="main.500"
                                     type="file"
+                                    accept="application/pdf"
                                     name="firstAppointmentLetter"
                                     id="firstAppointmentLetter"
-                                    value={formDetails.firstAppointmentLetter}
                                     onChange={(e) => handleChange(e, "firstAppointmentLetter")}
                                 />
                             </FormControl>
                             <Button
-                                type="Next"
-                                isLoading={isSubmitting}
-                                loadingText="Please wait.."
+                                type="button"
                                 colorScheme="main"
+                                onClick={() => handleFileUpload("firstAppointmentLetter")}
+                                disabled={uploadStatus.firstAppointmentLetter}
                             >
                                 Upload
                             </Button>
@@ -79,17 +114,17 @@ export default function FileUploads(props) {
                                 <Input
                                     focusBorderColor="main.500"
                                     type="file"
+                                    accept="application/pdf"
                                     name="confirmationLetter"
                                     id="confirmationLetter"
-                                    value={formDetails.confirmationLetter}
                                     onChange={(e) => handleChange(e, "confirmationLetter")}
                                 />
                             </FormControl>
                             <Button
-                                type="Next"
-                                isLoading={isSubmitting}
-                                loadingText="Please wait.."
+                                type="button"
                                 colorScheme="main"
+                                onClick={() => handleFileUpload("confirmationLetter")}
+                                disabled={uploadStatus.confirmationLetter}
                             >
                                 Upload
                             </Button>
@@ -100,17 +135,17 @@ export default function FileUploads(props) {
                                 <Input
                                     focusBorderColor="main.500"
                                     type="file"
+                                    accept="application/pdf"
                                     name="lastPaySlip"
                                     id="lastPaySlip"
-                                    value={formDetails.lastPaySlip}
                                     onChange={(e) => handleChange(e, "lastPaySlip")}
                                 />
                             </FormControl>
                             <Button
-                                type="Next"
-                                isLoading={isSubmitting}
-                                loadingText="Please wait.."
+                                type="button"
                                 colorScheme="main"
+                                onClick={() => handleFileUpload("lastPaySlip")}
+                                disabled={uploadStatus.lastPaySlip}
                             >
                                 Upload
                             </Button>
@@ -121,17 +156,17 @@ export default function FileUploads(props) {
                                 <Input
                                     focusBorderColor="main.500"
                                     type="file"
+                                    accept="application/pdf"
                                     name="verificationPrintout"
                                     id="verificationPrintout"
-                                    value={formDetails.verificationPrintout}
                                     onChange={(e) => handleChange(e, "verificationPrintout")}
                                 />
                             </FormControl>
                             <Button
                                 type="button"
-                                isLoading={isSubmitting}
-                                loadingText="Please wait.."
                                 colorScheme="main"
+                                onClick={() => handleFileUpload("verificationPrintout")}
+                                disabled={uploadStatus.verificationPrintout}
                             >
                                 Upload
                             </Button>
@@ -142,17 +177,17 @@ export default function FileUploads(props) {
                                 <Input
                                     focusBorderColor="main.500"
                                     type="file"
+                                    accept="application/pdf"
                                     name="letterOfIntroduction"
                                     id="letterOfIntroduction"
-                                    value={formDetails.letterOfIntroduction}
                                     onChange={(e) => handleChange(e, "letterOfIntroduction")}
                                 />
                             </FormControl>
                             <Button
                                 type="button"
-                                isLoading={isSubmitting}
-                                loadingText="Please wait.."
                                 colorScheme="main"
+                                onClick={() => handleFileUpload("letterOfIntroduction")}
+                                disabled={uploadStatus.letterOfIntroduction}
                             >
                                 Upload
                             </Button>
@@ -161,9 +196,8 @@ export default function FileUploads(props) {
                         <Stack marginTop="1rem">
                             <Button
                                 type="button"
-                                isLoading={isSubmitting}
-                                loadingText="Please wait.."
                                 colorScheme="main"
+                                onClick={() => history.push(`/applications/${id}`)}
                             >
                                 Proceed
                             </Button>

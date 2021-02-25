@@ -9,9 +9,9 @@ import { Table, Tbody, Thead, Tr, Td, Th } from "@chakra-ui/react";
 import "../Layout/Table/Table.scss";
 import { FaEllipsisV } from "react-icons/fa";
 
-export default function Customers() {
+export default function AdminUsers() {
     const [loading, setLoading] = useState(true);
-    const [customers, setCustomers] = useState([]);
+    const [adminUsers, setAdminUsers] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
     const { user } = useContext(UseUserContext);
     const toast = useToast();
@@ -19,9 +19,9 @@ export default function Customers() {
 
     useEffect(() => {
         if (user.firstName !== "") {
-            getCall("customer", user.token).then(res => {
+            getCall("admin/auth", user.token).then(res => {
                 console.log(res);
-                setCustomers(res.data);
+                setAdminUsers(res.data);
                 setLoading(false);
             }, err => {
                 toast({ status: "error", title: err.message });
@@ -30,14 +30,15 @@ export default function Customers() {
     }, [user, toast])
 
 
-    let customerList = customers.filter(item => item.firstName.toLowerCase().includes(searchQuery.toLowerCase()) || item.lastName.toLowerCase().includes(searchQuery.toLowerCase())  || item.email.toLowerCase().includes(searchQuery.toLowerCase()) || item.phoneNumber.includes(searchQuery)).map((c, i) => (
+    let adminUserList = adminUsers.filter(item => item.firstName.toLowerCase().includes(searchQuery.toLowerCase()) || item.lastName.toLowerCase().includes(searchQuery.toLowerCase())  || item.email.toLowerCase().includes(searchQuery.toLowerCase()) || item.phoneNumber.includes(searchQuery)).map((c, i) => (
         <Tr key={i}>
             <Td>{i + 1}</Td>
             <Td>{c.firstName}</Td>
             <Td>{c.lastName}</Td>
-            <Td>{c.email}</Td>
             <Td>{c.phoneNumber}</Td>
-            <Td>{new Date(c.created).toLocaleDateString("en-NG")}</Td>
+            <Td>{c.email}</Td>
+            <Td>{c.role}</Td>
+            <Td>{c.status ? "Yes" : "No"}</Td>
             <Td data-column="item-actions">
                 <Menu>
                     <MenuButton
@@ -45,10 +46,7 @@ export default function Customers() {
                         icon={<FaEllipsisV />}
                     ></MenuButton>
                     <MenuList>
-                        <MenuItem as={Link} onClick={() => history.push(`/customers/${c.id}`)}>View</MenuItem>
-                        <MenuItem as={Link} onClick={() => history.push(`/customers/${c.id}/new-application`)}>New Application</MenuItem>
-                        <MenuItem>Edit</MenuItem>
-                        <MenuItem>Delete</MenuItem>
+                        {c.status ? <MenuItem as={Link} onClick={() => history.push(`/adminUsers/${c.id}`)}>Disable</MenuItem> : <MenuItem as={Link} onClick={() => history.push(`/activate-admin/${c.email}`)}>Activate</MenuItem>}
                     </MenuList>
                 </Menu>
             </Td>
@@ -65,11 +63,11 @@ export default function Customers() {
     } else {
         return (
             <PageContent
-                title="Customers"
+                title="AdminUsers"
                 primaryAction={{
-                    content: "Add Customer",
+                    content: "Add Admin User",
                     onClick: () => {
-                        history.push("/new-customer")
+                        history.push("/new-admin-user")
                     },
                 }}
             >
@@ -85,13 +83,14 @@ export default function Customers() {
                                 <Th>SN</Th>
                                 <Th>First Name</Th>
                                 <Th>Last Name</Th>
-                                <Th>Email</Th>
                                 <Th>Phone Number</Th>
-                                <Th>Date Registered</Th>
+                                <Th>Email</Th>
+                                <Th>Role</Th>
+                                <Th>Active</Th>
                             </Tr>
                         </Thead>
                         <Tbody>
-                            {customers.length < 1 ? <Td>No Customers Found</Td> : customerList}
+                            {adminUserList.length < 1 ? <Tr><Td colSpan={8}>No Admin Users Found</Td></Tr> : adminUserList}
                         </Tbody>
                     </Table>
                 </Box>
