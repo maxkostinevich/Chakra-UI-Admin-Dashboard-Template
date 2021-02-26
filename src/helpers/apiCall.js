@@ -25,11 +25,14 @@ const postCall = (endpoint, body, token) => new Promise((resolve, reject) => {
         },
         body: JSON.stringify(body)
     }).then(res => res.json()).then(resp => {
-        if (resp.status === 200) {
-            resolve(resp.response)
+        if (resp.status) {
+            resolve(resp.response);
         } else {
-            reject(resp.message)
+            reject(resp);
         }
+        resolve(resp.response)
+    }, err => {
+        reject(err)
     }).catch(err => reject(err))
 });
 

@@ -18,7 +18,7 @@ import { FaCog, FaChevronDown } from "react-icons/fa";
 
 import "./Layout.scss";
 import UseUserContext from "../../contexts/UserContext";
-import { Link as RouterLink, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 export default function Nav() {
   const { user } = useContext(UseUserContext);
@@ -73,8 +73,8 @@ export default function Nav() {
                 Applications
               </MenuButton>
               <MenuList>
-                <MenuItem><Link href="/new-application">New Application</Link></MenuItem>
-                <MenuDivider />
+                {/* <MenuItem><Link href="/new-application">New Application</Link></MenuItem>
+                <MenuDivider /> */}
                 <MenuItem><Link href="/applications">View All Applications</Link></MenuItem>
               </MenuList>
             </Menu>

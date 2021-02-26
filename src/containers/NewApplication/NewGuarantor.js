@@ -1,4 +1,4 @@
-import { Box, FormControl, FormLabel, Heading, Input, Stack, Select, useToast, Button } from '@chakra-ui/core'
+import { Box, FormControl, FormLabel, Heading, Input, Stack, useToast, Button } from '@chakra-ui/core'
 import React, { useContext, useState } from 'react'
 import { useHistory } from 'react-router-dom';
 import UseUserContext from '../../contexts/UserContext';

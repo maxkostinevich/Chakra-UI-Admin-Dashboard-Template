@@ -16,7 +16,6 @@ export default function NewAdminUser(props) {
     })
     const [isSubmitting, setIsSubmitting] = useState(false);
     
-    const {id} = props.match.params;
     const toast = useToast();
     const history = useHistory();
     const {user} = useContext(UseUserContext);

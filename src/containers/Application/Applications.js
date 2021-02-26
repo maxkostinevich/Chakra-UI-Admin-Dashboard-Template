@@ -65,12 +65,12 @@ export default function Applications() {
         return (
             <PageContent
                 title="Applications"
-                primaryAction={{
-                    content: "Add Application",
-                    onClick: () => {
-                        history.push("/new-application")
-                    },
-                }}
+                // primaryAction={{
+                //     content: "Add Application",
+                //     onClick: () => {
+                //         history.push("/new-application")
+                //     },
+                // }}
             >
                 <Box width="100%" bg={"secondary.card"} color={"gray.800"} rounded="lg" p={5}>
                     <Box my={4} mx="auto" width={{ sm: "100%", md: "50%" }}>

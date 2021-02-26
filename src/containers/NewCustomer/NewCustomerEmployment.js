@@ -35,7 +35,7 @@ export default function NewCustomerEmployment(props) {
                 console.log(err);
             })
         }
-    }, [user])
+    }, [user, id])
 
     const handleChange = (e, name) => {
         e.persist();

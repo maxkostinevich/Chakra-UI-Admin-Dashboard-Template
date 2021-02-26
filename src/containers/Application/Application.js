@@ -1,11 +1,12 @@
-import { FormLabel, FormControl, Input, Grid, GridItem, Image, Select, Divider, Heading, Box, Button } from '@chakra-ui/core';
+import { FormLabel, FormControl, Input, Grid, GridItem, Image, Select, Divider, Heading, Box, Button, Textarea, useToast } from '@chakra-ui/core';
 import { Stack } from '@chakra-ui/core';
 import dayjs from 'dayjs';
 // import { Box } from '@chakra-ui/react';
 import React, { useContext, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom';
 import UseUserContext from '../../contexts/UserContext';
-import { getCall } from '../../helpers/apiCall';
+import { getCall, postCall } from '../../helpers/apiCall';
+import createSchedule from '../../helpers/schedule';
 import { PageContent } from '../Layout'
 
 export default function Application(props) {
@@ -13,7 +14,15 @@ export default function Application(props) {
     const { user } = useContext(UseUserContext);
     const [application, setApplication] = useState({})
     const [loading, setLoading] = useState(true);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [showApproval, setShowApproval] = useState(null);
+    const [approval, setApproval] = useState({
+        status: "",
+        note: "",
+        commencementDate: ""
+    })
     const history = useHistory();
+    const toast = useToast();
     useEffect(() => {
         if (user.firstName !== "") {
             getCall(`application/view/${id}`, user.token).then(res => {
@@ -23,6 +32,37 @@ export default function Application(props) {
             }, err => { console.log(err) })
         }
     }, [user, id])
+
+    const handleApproval = (e) => {
+        setIsSubmitting(true)
+        e.preventDefault();
+        let body = approval;
+        if(showApproval === "manager" && approval.status) {
+            const totalLoan = application.amount + (application.interestRate * application.amount / 100);
+            body = {
+                ...approval,
+                endDate: dayjs(approval.commencementDate).add(application.tenure, 'months'),
+                totalLoan,
+                schedule: createSchedule(application.tenure, totalLoan, approval.commencementDate)
+            }
+            console.log(body);
+        }
+        postCall(`application/${id}/${showApproval}`, body, user.token).then(res => {
+            toast({ status: 'success', title: res.message })
+            setIsSubmitting(false);
+            history.push(`/applications`)
+        }, err => {
+            toast({ status: 'error', title: err.message });
+            setIsSubmitting(false);
+        })
+    }
+
+    const handleChange = (e, name) => {
+        e.persist();
+        setApproval(prev => {
+            return { ...prev, [name]: e.target.value }
+        });
+    }
 
     if (loading) {
         return (<PageContent>
@@ -34,39 +74,78 @@ export default function Application(props) {
     return (
         <PageContent
             title={customer.firstName + " " + customer.lastName}
-            primaryAction={user.role === "lineManager" || user.role === "super-admin" && !application.lineManagerApproval ? {
+            primaryAction={!application.lineManagerApproval && user.role === "lineManager" ? {
                 content: "Line Manager Approval",
                 onClick: () => {
-                    history.push(`${id}/new-application`);
-                }
-            } : user.role === "manager" && !application.lineManagerApproval ? {
-                content: "Manager Approval",
-                onClick: () => {
-                    history.push(`${id}/new-application`);
+                    setShowApproval("lineManager");
                 }
             } : null}
-        // secondaryActions={[
-        //     {
-        //         content: "Edit Data",
-        //         onClick: () => {
-
-        //         }
-        //     },
-        //     {
-        //         content: "Edit Employment",
-        //         onClick: () => {
-
-        //         }
-        //     },
-        //     {
-        //         content: "Edit Payment",
-        //         onClick: () => {
-
-        //         }
-        //     },
-        // ]}
+            secondaryActions={application.lineManagerApproval && !application.managerApproval && user.role === "manager" ? [
+                {
+                    content: "Manager Approval",
+                    onClick: () => {
+                        setShowApproval("manager");
+                    }
+                }
+            ] : null}
         >
             <Box width="100%" bg={"secondary.card"} color={"gray.800"} rounded="lg" p={5}>
+                {showApproval && <Box>
+                    <form onSubmit={(e) => handleApproval(e)}>
+                        <Stack direction="row" mb={4}>
+                            <FormControl isRequired>
+                                <FormLabel htmlFor="approvalStatus">Approval Status</FormLabel>
+                                <Select
+                                    focusBorderColor="main.500"
+                                    type="text"
+                                    name="approvalStatus"
+                                    id="approvalStatus"
+                                    value={approval.status}
+                                    onChange={(e) => handleChange(e, 'status')}
+                                    placeholder="Approval Status"
+                                >
+                                    <option value={true}>Approved</option>
+                                    <option value={false}>Denied</option>
+                                </Select>
+                            </FormControl>
+                            <FormControl isRequired>
+                                <FormLabel htmlFor="approvalNotes">Approval Notes</FormLabel>
+                                <Textarea
+                                    focusBorderColor="main.500"
+                                    name="approvalNotes"
+                                    id="approvalNotes"
+                                    value={approval.note}
+                                    onChange={(e) => handleChange(e, 'note')}
+                                    placeholder="Notes"
+                                />
+                            </FormControl>
+                            {showApproval === "manager" ? <>
+                                <FormControl isRequired>
+                                    <FormLabel htmlFor="commencementDate">Commencement Date</FormLabel>
+                                    <Input
+                                        focusBorderColor="main.500"
+                                        type="date"
+                                        name="commencementDate"
+                                        id="commencementDate"
+                                        value={approval.commencementDate}
+                                        onChange={(e) => handleChange(e, 'commencementDate')}
+                                        placeholder="Commencement Date"
+                                    />
+                                </FormControl>
+                            </> : null}
+                        </Stack>
+                        <Stack marginBottom="1rem">
+                            <Button
+                                type="submit"
+                                isLoading={isSubmitting}
+                                loadingText="Please wait.."
+                                colorScheme="main"
+                            >
+                                Submit
+                            </Button>
+                        </Stack>
+                    </form>
+                </Box>}
                 <form>
                     <Grid
                         gap="2"
@@ -338,56 +417,6 @@ export default function Application(props) {
                     <Divider />
                     <Heading as="h5" mb={4}>Guarantor Details</Heading>
                     {application.guarantor && <>
-                        <Stack direction="row" wrap="wrap" mb={4}>
-                            <FormControl isRequired>
-                                <FormLabel htmlFor="firstName">First Name</FormLabel>
-                                <Input
-                                    focusBorderColor="main.500"
-                                    type="text"
-                                    name="firstName"
-                                    id="firstName"
-                                    value={guarantor.firstName}
-                                    placeholder="First Name"
-                                    readOnly>
-                                </Input>
-                            </FormControl>
-                            <FormControl isRequired>
-                                <FormLabel htmlFor="placeOfWork">Phone Number</FormLabel>
-                                <Input
-                                    focusBorderColor="main.500"
-                                    type="text"
-                                    name="placeOfWork"
-                                    id="placeOfWork"
-                                    value={guarantor.placeOfWork}
-                                    placeholder="Phone Number"
-                                    readOnly>
-                                </Input>
-                            </FormControl>
-                            <FormControl isRequired>
-                                <FormLabel htmlFor="designation">Designation</FormLabel>
-                                <Input
-                                    focusBorderColor="main.500"
-                                    type="text"
-                                    name="designation"
-                                    id="designation"
-                                    value={guarantor.designation}
-                                    placeholder="Designation"
-                                    readOnly>
-                                </Input>
-                            </FormControl>
-                            <FormControl isRequired>
-                                <FormLabel htmlFor="address">Address</FormLabel>
-                                <Input
-                                    focusBorderColor="main.500"
-                                    type="text"
-                                    name="address"
-                                    id="address"
-                                    value={guarantor.address}
-                                    placeholder="Address"
-                                    readOnly>
-                                </Input>
-                            </FormControl>
-                        </Stack>
                         <Stack direction="row" mb={4}>
                             <FormControl isRequired>
                                 <FormLabel htmlFor="firstName">First Name</FormLabel>
@@ -410,6 +439,58 @@ export default function Application(props) {
                                     id="lastName"
                                     value={guarantor.lastName}
                                     placeholder="Last Name"
+                                    readOnly>
+                                </Input>
+                            </FormControl>
+                        </Stack>
+                        <Stack direction="row" mb={4}>
+                            <FormControl isRequired>
+                                <FormLabel htmlFor="phoneNumber">Phone Number</FormLabel>
+                                <Input
+                                    focusBorderColor="main.500"
+                                    type="text"
+                                    name="phoneNumber"
+                                    id="phoneNumber"
+                                    value={guarantor.phoneNumber}
+                                    placeholder="Phone Number"
+                                    readOnly>
+                                </Input>
+                            </FormControl>
+                            <FormControl isRequired>
+                                <FormLabel htmlFor="placeOfWork">Place of Work</FormLabel>
+                                <Input
+                                    focusBorderColor="main.500"
+                                    type="text"
+                                    name="placeOfWork"
+                                    id="placeOfWork"
+                                    value={guarantor.placeOfWork}
+                                    placeholder="Place of Work"
+                                    readOnly>
+                                </Input>
+                            </FormControl>
+                            <FormControl isRequired>
+                                <FormLabel htmlFor="designation">Designation</FormLabel>
+                                <Input
+                                    focusBorderColor="main.500"
+                                    type="text"
+                                    name="designation"
+                                    id="designation"
+                                    value={guarantor.designation}
+                                    placeholder="Designation"
+                                    readOnly>
+                                </Input>
+                            </FormControl>
+                        </Stack>
+                        <Stack direction="row" mb={4}>
+                            <FormControl isRequired>
+                                <FormLabel htmlFor="address">Address</FormLabel>
+                                <Input
+                                    focusBorderColor="main.500"
+                                    type="text"
+                                    name="address"
+                                    id="address"
+                                    value={guarantor.address}
+                                    placeholder="Address"
                                     readOnly>
                                 </Input>
                             </FormControl>
