@@ -4,11 +4,13 @@ const createSchedule = (tenure, amount, commencementDate) => {
     const monthlyPayment = amount / tenure;
     let count = 1;
     const schedule = []
-    for (let i = 1; count !== tenure; i++) {
+    for (let i = 0; i < tenure; i++) {
         schedule.push({
             paymentStatus: false,
             amount: monthlyPayment,
-            month: dayjs(commencementDate).add(count, 'months').format('MMMM')
+            day: dayjs(commencementDate).add(count, 'months').format('D'),
+            month: dayjs(commencementDate).add(count, 'months').format('MMMM'),
+            year: dayjs(commencementDate).add(count, 'months').format('YYYY')
         })
         count += 1;
     }

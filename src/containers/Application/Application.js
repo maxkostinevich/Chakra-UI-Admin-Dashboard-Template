@@ -1,5 +1,6 @@
 import { FormLabel, FormControl, Input, Grid, GridItem, Image, Select, Divider, Heading, Box, Button, Textarea, useToast } from '@chakra-ui/core';
 import { Stack } from '@chakra-ui/core';
+import { Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import dayjs from 'dayjs';
 // import { Box } from '@chakra-ui/react';
 import React, { useContext, useEffect, useState } from 'react'
@@ -8,6 +9,8 @@ import UseUserContext from '../../contexts/UserContext';
 import { getCall, postCall } from '../../helpers/apiCall';
 import createSchedule from '../../helpers/schedule';
 import { PageContent } from '../Layout'
+import toCurrency from '../../helpers/toCurrency'
+import "../Layout/Table/Table.scss";
 
 export default function Application(props) {
     const { id } = props.match.params;
@@ -37,15 +40,14 @@ export default function Application(props) {
         setIsSubmitting(true)
         e.preventDefault();
         let body = approval;
-        if(showApproval === "manager" && approval.status) {
-            const totalLoan = application.amount + (application.interestRate * application.amount / 100);
+        if (showApproval === "manager" && approval.status) {
+            const totalLoan = application.amount + ((application.interestRate * application.amount / 100) * application.tenure);
             body = {
                 ...approval,
                 endDate: dayjs(approval.commencementDate).add(application.tenure, 'months'),
                 totalLoan,
                 schedule: createSchedule(application.tenure, totalLoan, approval.commencementDate)
             }
-            console.log(body);
         }
         postCall(`application/${id}/${showApproval}`, body, user.token).then(res => {
             toast({ status: 'success', title: res.message })
@@ -70,7 +72,8 @@ export default function Application(props) {
         </PageContent>)
     }
 
-    const { customer, guarantor } = application;
+    const { customer, guarantor, loan: { commencementDate, endDate, schedule, totalLoan } } = application;
+    const deductionsMade = schedule.filter(s => s.paymentStatus).reduce((acc, cur) => acc + cur.amount, 0);
     return (
         <PageContent
             title={customer.firstName + " " + customer.lastName}
@@ -364,6 +367,18 @@ export default function Application(props) {
                             />
                         </FormControl>
                         <FormControl isRequired>
+                            <FormLabel htmlFor="interest">Interest</FormLabel>
+                            <Input
+                                focusBorderColor="main.500"
+                                name="interest"
+                                type="text"
+                                id="interest"
+                                value={((application.amount * application.interestRate / 100) * application.tenure).toLocaleString("en-NG", { style: "currency", currency: "NGN" })}
+                                placeholder="Interest"
+                                readOnly
+                            />
+                        </FormControl>
+                        <FormControl isRequired>
                             <FormLabel htmlFor="tenure">Tenure</FormLabel>
                             <Input
                                 focusBorderColor="main.500"
@@ -384,7 +399,7 @@ export default function Application(props) {
                                 name="deductions"
                                 type="text"
                                 id="deductions"
-                                value={(50000).toLocaleString("en-NG", { style: "currency", currency: "NGN" })}
+                                value={(deductionsMade).toLocaleString("en-NG", { style: "currency", currency: "NGN" })}
                                 placeholder="Deductions Made"
                                 readOnly
                             />
@@ -396,7 +411,7 @@ export default function Application(props) {
                                 type="date"
                                 name="startDate"
                                 id="startDate"
-                                value="2020-01-01"
+                                value={dayjs(commencementDate).format("YYYY-MM-DD")}
                                 placeholder="Start Date"
                                 readOnly>
                             </Input>
@@ -408,13 +423,39 @@ export default function Application(props) {
                                 type="date"
                                 name="endDate"
                                 id="endDate"
-                                value="2020-10-01"
+                                value={dayjs(endDate).format("YYYY-MM-DD")}
                                 placeholder="End Date"
                                 readOnly>
                             </Input>
                         </FormControl>
                     </Stack>}
-                    <Divider />
+                    <Divider mb={4}/>
+                    {application.loan && <>
+                        <Heading as="h5" mb={4}>Loan Schedule</Heading>
+                        <Table className="chakra-ui-table">
+                            <Thead>
+                                <Tr>
+                                    <Th>Month</Th>
+                                    <Th>Year</Th>
+                                    <Th>Amount</Th>
+                                    <Th>Payment Status</Th>
+                                </Tr>
+                            </Thead>
+                            <Tbody>
+                                {
+                                    schedule.map((sc, i) => (
+                                        <Tr key={i}>
+                                            <Td>{sc.month}</Td>
+                                            <Td>{sc.year}</Td>
+                                            <Td>{toCurrency(sc.amount, 'NGN')}</Td>
+                                            <Td>{sc.paymentStatus ? 'Paid' : 'Pending'}</Td>
+                                        </Tr>
+                                    ))
+                                }
+                            </Tbody>
+                        </Table>
+                        <Divider />
+                    </>}
                     <Heading as="h5" mb={4}>Guarantor Details</Heading>
                     {application.guarantor && <>
                         <Stack direction="row" mb={4}>
