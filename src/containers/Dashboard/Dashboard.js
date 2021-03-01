@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   SimpleGrid,
   Stat,
@@ -12,6 +12,7 @@ import {
   Flex,
   Icon,
   Badge,
+  useToast,
 } from "@chakra-ui/core";
 
 import { FaChevronUp, FaChevronDown } from "react-icons/fa";
@@ -20,88 +21,104 @@ import { PageContent, Card } from "../Layout";
 
 import "./Dashboard.scss";
 import toCurrency from "../../helpers/toCurrency";
+import { useHistory } from "react-router-dom";
+import UseUserContext from "../../contexts/UserContext";
+import { getCall } from "../../helpers/apiCall";
+import { Table, Th, Thead } from "@chakra-ui/react";
+import Applications from "../Application/Applications";
 
 export default function Dashboard() {
+  const [applications, setApplications] = useState([])
+  const [loading, setLoading] = useState(true);
+  const history = useHistory();
+  const toast = useToast();
+  const { user } = useContext(UseUserContext);
+
+  useEffect(() => {
+    if (user.firstName !== "") {
+      getCall("application/view-all", user.token).then(res => {
+        console.log(res);
+        setApplications(res.data);
+        setLoading(false);
+      }, err => {
+        toast({ status: "error", title: err.message });
+      })
+    }
+  }, [user, toast]);
+
+  const pendingApplications = applications.filter(curr => !curr.loan);
+  const activeLoans = applications.filter(curr => curr.loan);
+  const loanValue = activeLoans.reduce((total, curr) => total + curr.loan.totalLoan, 0);
+  console.log(loanValue);
+
+  if (loading) {
+    return (
+      <div>
+        <h3>Loading...</h3>
+      </div>
+
+    )
+  }
   return (
     <PageContent
       title="Dashboard"
       primaryAction={{
         content: "New Customer",
         onClick: () => {
-          alert("ok");
+          history.push('/new-customer');
         },
       }}
       secondaryActions={[
         {
           content: "View All Applications",
           onClick: () => {
-            alert("ok");
+            history.push('/applications');
           },
         },
       ]}
     >
-      <SimpleGrid columns={{ sm: 1, md: 2 }} spacing={10}>
+      <SimpleGrid columns={{ sm: 1, md: 2 }} spacing={10} mb={4}>
         <Card
           title="Active Loan Value"
           bg="main.500"
           color="white"
-          // filterActions={[
-          //   {
-          //     default: "2_weeks",
-          //     items: {
-          //       "1_week": "Last week",
-          //       "2_weeks": "Last 14 days",
-          //       "30_days": "30 Days",
-          //     },
+        // filterActions={[
+        //   {
+        //     default: "2_weeks",
+        //     items: {
+        //       "1_week": "Last week",
+        //       "2_weeks": "Last 14 days",
+        //       "30_days": "30 Days",
+        //     },
 
-          //     onChange: () => {
-          //       alert("ok");
-          //     },
-          //   },
-          // ]}
+        //     onChange: () => {
+        //       alert("ok");
+        //     },
+        //   },
+        // ]}
         >
           <Flex alignItems="center" justifyContent="space-between">
             <Text fontSize="3em" lineHeight="4rem" fontWeight="700">
-              {toCurrency(80, "NGN")}
-              </Text>
-            <Stack alignItems="center">
+              {toCurrency(loanValue, "NGN")}
+            </Text>
+            {/* <Stack alignItems="center">
               <Icon as={FaChevronUp} color="gray.100" fontSize="2em" />
               <Badge colorScheme="green">+2.5%</Badge>
-            </Stack>
+            </Stack> */}
           </Flex>
         </Card>
-        <Card title="New Applications" bg="main.500" color="white">
+        <Card title="Pending Applications" bg="main.500" color="white">
           <Flex alignItems="center" justifyContent="space-between">
             <Text fontSize="4em" lineHeight="4rem" fontWeight="700">
-              12
-              </Text>
-            <Stack alignItems="center">
+              {pendingApplications.length}
+            </Text>
+            {/* <Stack alignItems="center">
               <Icon as={FaChevronDown} color="gray.100" fontSize="2em" />
               <Badge colorScheme="red">-2.5%</Badge>
-            </Stack>
+            </Stack> */}
           </Flex>
         </Card>
-        <Card
-          title="Card Title"
-          subtitle="Card subtitle"
-          primaryAction={{
-            content: "Create report",
-            onClick: () => {
-              alert("ok");
-            },
-          }}
-          secondaryActions={[
-            {
-              content: "Second action",
-              onClick: () => {
-                alert("ok");
-              },
-            },
-          ]}
-        >
-          Card Content
-          </Card>
-        <Card title="Your Stats">
+        {/* <Card title="Your Stats">
           <StatGroup justifyContent="space-between">
             <Stat>
               <StatLabel>Sent</StatLabel>
@@ -130,8 +147,9 @@ export default function Dashboard() {
                 </StatHelpText>
             </Stat>
           </StatGroup>
-        </Card>
+        </Card> */}
       </SimpleGrid>
+      <Applications/>
     </PageContent>
   );
 }
