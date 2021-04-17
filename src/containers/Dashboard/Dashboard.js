@@ -49,7 +49,6 @@ export default function Dashboard() {
   const pendingApplications = applications.filter(curr => !curr.loan);
   const activeLoans = applications.filter(curr => curr.loan);
   const loanValue = activeLoans.reduce((total, curr) => total + curr.loan.totalLoan, 0);
-  console.log(loanValue);
 
   if (loading) {
     return (

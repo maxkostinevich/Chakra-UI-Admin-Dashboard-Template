@@ -11,6 +11,7 @@ import {
   Button,
   FormControl,
   Heading,
+  useToast
 } from "@chakra-ui/core";
 import { authCall } from "../../../helpers/apiCall";
 import { useHistory } from "react-router-dom"
@@ -28,12 +29,21 @@ export default function Login() {
     password: "",
   })
   const history = useHistory()
+  const toast = useToast();
   const handleFormSubmit = (e) => {
     e.preventDefault();
     setSubmitting(true);
     authCall("admin/auth/login", formDetails).then(res => {
+      console.log(res);
       window.localStorage.setItem("user", JSON.stringify(res));
       history.push("/")
+    }, err => {
+      console.log({err});
+      toast({
+        status: "error",
+        description: err
+      });
+      setSubmitting(false);
     })
   };
 
