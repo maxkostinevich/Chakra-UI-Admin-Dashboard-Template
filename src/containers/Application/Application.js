@@ -530,7 +530,7 @@ export default function Application(props) {
                   name="deductions"
                   type="text"
                   id="deductions"
-                  value={loan.deductionsMade.toLocaleString("en-NG", {
+                  value={deductionsMade.toLocaleString("en-NG", {
                     style: "currency",
                     currency: "NGN",
                   })}
