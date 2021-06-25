@@ -3,14 +3,14 @@ import { Box, Input, Image, FormLabel } from '@chakra-ui/react'
 import axios from 'axios'
 import React, { useContext, useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import UseUserContext from '../../contexts/UserContext'
+import { UserStateContext } from '../../contexts/UserContext'
 import { PageContainer, PageContent } from '../Layout'
 
 export default function NewCustomerPassport(props) {
     const [isSubmitting, setIsSubmitting] = useState(false)
     const toast = useToast()
     const history = useHistory()
-    const { user } = useContext(UseUserContext);
+    const user = useContext(UserStateContext);
     const { id } = props.match.params;
     const [passport, setPassport] = useState("")
     const [passportPreview, setPassportPreview] = useState("")

@@ -1,7 +1,7 @@
 import { Box, Button, Divider, FormControl, FormLabel, Heading, Input, Select, Stack, useToast } from '@chakra-ui/core'
 import React, { useState, useContext } from 'react'
 import { useHistory } from 'react-router-dom';
-import UseUserContext from '../../contexts/UserContext';
+import { UserStateContext } from '../../contexts/UserContext';
 import { postCall } from '../../helpers/apiCall';
 import { PageContainer, PageContent } from '../Layout'
 import states from '../../helpers/ng.states.json';
@@ -24,7 +24,7 @@ export default function NewCustomerData(props) {
     const [lga, setLga] = useState([])
     const toast = useToast()
     const history = useHistory()
-    const { user } = useContext(UseUserContext);
+    const user = useContext(UserStateContext);
     const { id } = props.match.params
 
     const stateList = states.states.map((state, index) => (

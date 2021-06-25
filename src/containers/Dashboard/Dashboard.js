@@ -22,7 +22,7 @@ import { PageContent, Card } from "../Layout";
 import "./Dashboard.scss";
 import toCurrency from "../../helpers/toCurrency";
 import { useHistory } from "react-router-dom";
-import UseUserContext from "../../contexts/UserContext";
+import { UserStateContext } from "../../contexts/UserContext";
 import { getCall } from "../../helpers/apiCall";
 import { Table, Th, Thead } from "@chakra-ui/react";
 import Applications from "../Application/Applications";
@@ -32,7 +32,9 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const history = useHistory();
   const toast = useToast();
-  const { user } = useContext(UseUserContext);
+  const user = useContext(UserStateContext);
+
+  console.log({user});
 
   useEffect(() => {
     if (user.firstName !== "") {

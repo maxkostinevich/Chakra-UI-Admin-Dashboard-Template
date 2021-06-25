@@ -1,7 +1,7 @@
 import { Box, IconButton, Input, Menu, MenuButton, MenuItem, MenuList, useToast, FormControl } from "@chakra-ui/core";
 import React, { useContext, useEffect, useState } from "react";
 import { getCall } from "../../helpers/apiCall";
-import UseUserContext from "../../contexts/UserContext"
+import { UserStateContext } from "../../contexts/UserContext"
 import { PageContent } from "../Layout";
 import { Link, useHistory } from "react-router-dom";
 import { Table, Tbody, Thead, Tr, Td, Th } from "@chakra-ui/react";
@@ -14,7 +14,7 @@ export default function Applications() {
     const [loading, setLoading] = useState(true);
     const [applications, setApplications] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
-    const { user } = useContext(UseUserContext);
+    const user = useContext(UserStateContext);
     const toast = useToast();
     const history = useHistory()
 

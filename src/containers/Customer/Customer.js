@@ -4,13 +4,13 @@ import dayjs from 'dayjs';
 // import { Box } from '@chakra-ui/react';
 import React, { useContext, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom';
-import UseUserContext from '../../contexts/UserContext';
+import { UserStateContext } from '../../contexts/UserContext';
 import { getCall } from '../../helpers/apiCall';
 import { PageContent } from '../Layout'
 
 export default function Customer(props) {
     const { id } = props.match.params;
-    const { user } = useContext(UseUserContext);
+    const user = useContext(UserStateContext);
     const [customer, setCustomer] = useState({})
     const [loading, setLoading] = useState(true);
     const history = useHistory();

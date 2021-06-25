@@ -1,7 +1,7 @@
 import { Box, Button, FormControl, FormLabel, Heading, Input, Select, Stack, useToast } from '@chakra-ui/core'
 import React, { useState, useContext } from 'react'
 import { useHistory } from 'react-router-dom';
-import UseUserContext from '../../contexts/UserContext';
+import { UserStateContext } from '../../contexts/UserContext';
 import { postCall } from '../../helpers/apiCall';
 import { PageContainer, PageContent } from '../Layout';
 import banks from '../../helpers/banks.json'
@@ -15,7 +15,7 @@ export default function NewCustomerPayment(props) {
 
     const toast = useToast()
     const history = useHistory()
-    const { user } = useContext(UseUserContext);
+    const user = useContext(UserStateContext);
     const {id} = props.match.params
 
     const bankList = banks.map((bank, i) => (

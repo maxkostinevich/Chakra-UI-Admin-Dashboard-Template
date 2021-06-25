@@ -17,11 +17,11 @@ import {
 import { FaCog, FaChevronDown } from "react-icons/fa";
 
 import "./Layout.scss";
-import UseUserContext from "../../contexts/UserContext";
+import { UserStateContext } from "../../contexts/UserContext";
 import { useHistory } from "react-router-dom";
 
 export default function Nav() {
-  const { user } = useContext(UseUserContext);
+  const user = useContext(UserStateContext);
   const history = useHistory()
   return (
     <Flex

@@ -1,7 +1,7 @@
 import { Box, FormControl, FormLabel, Heading, Input, Stack, Select, useToast, Button } from '@chakra-ui/core'
 import React, { useContext, useState } from 'react'
 import { useHistory } from 'react-router-dom';
-import UseUserContext from '../../contexts/UserContext';
+import { UserStateContext } from '../../contexts/UserContext';
 import { postCall } from '../../helpers/apiCall';
 import { PageContainer, PageContent } from '../Layout'
 
@@ -17,7 +17,7 @@ export default function NewApplication(props) {
     const {id} = props.match.params;
     const toast = useToast();
     const history = useHistory();
-    const {user} = useContext(UseUserContext);
+    const user = useContext(UserStateContext);
 
     const handleChange = (e, name) => {
         e.persist();

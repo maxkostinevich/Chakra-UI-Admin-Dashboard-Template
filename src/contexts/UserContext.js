@@ -1,5 +1,6 @@
 import { createContext } from "react";
 
-const UseUserContext = createContext(null);
+const UserStateContext = createContext();
+const UserDispatchContext = createContext();
 
-export default UseUserContext;
+export {UserStateContext, UserDispatchContext};

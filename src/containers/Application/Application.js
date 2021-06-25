@@ -19,7 +19,7 @@ import dayjs from "dayjs";
 // import { Box } from '@chakra-ui/react';
 import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import UseUserContext from "../../contexts/UserContext";
+import { UserStateContext } from "../../contexts/UserContext";
 import { getCall, postCall } from "../../helpers/apiCall";
 import createSchedule from "../../helpers/schedule";
 import { PageContent } from "../Layout";
@@ -28,7 +28,7 @@ import "../Layout/Table/Table.scss";
 
 export default function Application(props) {
   const { id } = props.match.params;
-  const { user } = useContext(UseUserContext);
+  const user = useContext(UserStateContext);
   const [application, setApplication] = useState({});
   const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -59,7 +59,7 @@ export default function Application(props) {
     setIsSubmitting(true);
     e.preventDefault();
     let body = approval;
-    if (showApproval === "manager" && approval.status) {
+    if (showApproval === "lineManager" && approval.status) {
       const totalLoan =
         application.amount +
         ((application.interestRate * application.amount) / 100) *
@@ -170,18 +170,22 @@ export default function Application(props) {
                     <option value={false}>Denied</option>
                   </Select>
                 </FormControl>
-                <FormControl isRequired>
-                  <FormLabel htmlFor="approvalNotes">Approval Notes</FormLabel>
-                  <Textarea
-                    focusBorderColor="main.500"
-                    name="approvalNotes"
-                    id="approvalNotes"
-                    value={approval.note}
-                    onChange={(e) => handleChange(e, "note")}
-                    placeholder="Notes"
-                  />
-                </FormControl>
-                {showApproval === "manager" ? (
+                {showApproval === "lineManager" && (
+                  <FormControl isRequired>
+                    <FormLabel htmlFor="approvalNotes">
+                      Approval Notes
+                    </FormLabel>
+                    <Textarea
+                      focusBorderColor="main.500"
+                      name="approvalNotes"
+                      id="approvalNotes"
+                      value={approval.note}
+                      onChange={(e) => handleChange(e, "note")}
+                      placeholder="Notes"
+                    />
+                  </FormControl>
+                )}
+                {showApproval === "lineManager" && (
                   <>
                     <FormControl isRequired>
                       <FormLabel htmlFor="commencementDate">
@@ -198,7 +202,7 @@ export default function Application(props) {
                       />
                     </FormControl>
                   </>
-                ) : null}
+                )}
               </Stack>
               <Stack marginBottom="1rem">
                 <Button

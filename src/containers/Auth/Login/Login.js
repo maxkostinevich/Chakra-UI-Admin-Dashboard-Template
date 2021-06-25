@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Box,
   Stack,
@@ -21,6 +21,7 @@ import { FaRegEnvelope, FaLock } from "react-icons/fa";
 import { PageContainer } from "../Layout";
 
 import "./Login.scss";
+import { UserDispatchContext } from "../../../contexts/UserContext";
 
 export default function Login() {
   const [isSubmitting, setSubmitting] = useState(false);
@@ -28,6 +29,7 @@ export default function Login() {
     email: "",
     password: "",
   })
+  const userDispatch = useContext(UserDispatchContext);
   const history = useHistory()
   const toast = useToast();
   const handleFormSubmit = (e) => {
@@ -35,10 +37,10 @@ export default function Login() {
     setSubmitting(true);
     authCall("admin/auth/login", formDetails).then(res => {
       console.log(res);
+      userDispatch(res.data);
       window.localStorage.setItem("user", JSON.stringify(res));
       history.push("/")
     }, err => {
-      console.log({err});
       toast({
         status: "error",
         description: err

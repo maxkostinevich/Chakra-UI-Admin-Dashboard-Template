@@ -2,7 +2,7 @@ import { Box, Button, FormControl, FormLabel, Heading, Input, Select, Stack, use
 import dayjs from 'dayjs';
 import React, { useState, useContext, useEffect } from 'react'
 import { useHistory } from 'react-router-dom';
-import UseUserContext from '../../contexts/UserContext';
+import { UserStateContext } from '../../contexts/UserContext';
 import { getCall, postCall } from '../../helpers/apiCall';
 import { PageContainer, PageContent } from '../Layout'
 import mda from "../../helpers/mda.json";
@@ -23,7 +23,7 @@ export default function NewCustomerEmployment(props) {
 
     const toast = useToast()
     const history = useHistory()
-    const { user } = useContext(UseUserContext);
+    const user = useContext(UserStateContext);
     const { id } = props.match.params
 
     useEffect(() => {
