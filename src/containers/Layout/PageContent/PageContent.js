@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Stack, Heading, Button } from "@chakra-ui/core";
+import { Container, Stack, Heading, Button } from "@chakra-ui/react";
 
 import "./PageContent.scss";
 
@@ -7,7 +7,7 @@ export default function PageContent({
   title = "",
   primaryAction = null,
   secondaryActions = null,
-  children,
+  children
 }) {
   const actions = [
     primaryAction ? (
@@ -34,7 +34,7 @@ export default function PageContent({
             {action.content}
           </Button>
         ))
-      : "",
+      : ""
   ];
 
   const header =

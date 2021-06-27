@@ -27,7 +27,7 @@ export default function Table({
   selected = [],
   selectable = false,
   bg = "secondary.card",
-  color = "gray.800",
+  color = "gray.800"
 }) {
   let itemsIds = items.map((item) => item.id);
   let [localSelected, setLocalSelected] = useState(selected);
