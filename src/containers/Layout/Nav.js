@@ -85,14 +85,12 @@ export default function Nav() {
                 variant="ghost"
                 rightIcon={<Icon as={FaChevronDown} color="navItem.500" />}
               >
-                Financials
+                Loans
               </MenuButton>
               <MenuList>
-                <MenuItem><Link href="/loans">View All</Link></MenuItem>
                 <MenuItem><Link href="/loans/active">Active Loans</Link></MenuItem>
-                <MenuItem><Link href="/loans/applications">Loan Applications</Link></MenuItem>
-                <MenuDivider />
-                <MenuItem><Link href="/new-loan">New Application</Link></MenuItem>
+                <MenuItem><Link href="/loans/completed">Completed Loans</Link></MenuItem>
+                <MenuItem><Link href="/loans">All Loans</Link></MenuItem>
               </MenuList>
             </Menu>
           </Stack>

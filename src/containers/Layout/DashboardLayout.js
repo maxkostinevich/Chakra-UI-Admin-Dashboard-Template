@@ -1,5 +1,5 @@
 import jwtDecode from "jwt-decode";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { UserDispatchContext } from "../../contexts/UserContext";
 import Customer from "../Customer/Customer";
@@ -21,6 +21,10 @@ import Application from "../Application/Application";
 import AdminUsers from "../AdminUsers/AdminUsers";
 import NewAdminUser from "../AdminUsers/NewAdminUser";
 import ActivateAdmin from "../AdminUsers/ActivateAdmin";
+import Loans from "../Loans/Loans";
+import ActiveLoans from "../Loans/ActiveLoans";
+import LoanArchive from "../Loans/LoanArchive";
+import Loan from "../Loans/Loan";
 
 const localUser = window.localStorage.getItem("user");
 let parsedUser;
@@ -47,7 +51,7 @@ export default function DashboardLayout() {
     } else {
       history.push("/login");
     }
-  }, []);
+  }, [UserDispatch, history]);
 
   return (
     <PageContainer isFixedNav>
@@ -96,6 +100,26 @@ export default function DashboardLayout() {
           exact
           path="/new-application-uploads/:id"
           component={FileUploads}
+        />
+        <Route
+          exact
+          path="/loans/"
+          component={Loans}
+        />
+        <Route
+          exact
+          path="/loans/active"
+          component={ActiveLoans}
+        />
+        <Route
+          exact
+          path="/loans/completed"
+          component={LoanArchive}
+        />
+        <Route
+          exact
+          path="/loans/:id"
+          component={Loan}
         />
       </Switch>
       <Footer />

@@ -8,6 +8,7 @@
     "@emotion/react": "^11.1.4",
     "@emotion/styled": "^11.0.0",
     "axios": "^0.21.1",
+    "cogo-toast": "^4.2.3",
     "dayjs": "^1.10.4",
     "framer-motion": "^3.2.1",
     "jwt-decode": "^3.1.2",

@@ -44,7 +44,6 @@ export default function Application(props) {
     if (user.firstName !== "") {
       getCall(`application/view/${id}`, user.token).then(
         (res) => {
-          console.log(res);
           setApplication(res.data);
           setLoading(false);
         },
@@ -222,6 +221,7 @@ export default function Application(props) {
             <GridItem colSpan="2">
               <Image
                 src={`http://localhost:8080/files/${customer.data.passportUrl}`}
+                width="200px" height="180px" alt="Passport Photograph" objectFit="cover"
               />
             </GridItem>
             <GridItem colSpan="6">

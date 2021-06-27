@@ -198,6 +198,7 @@ export default function FileUploads(props) {
                                 type="button"
                                 colorScheme="main"
                                 onClick={() => history.push(`/applications/${id}`)}
+                                isLoading={isSubmitting}
                             >
                                 Proceed
                             </Button>
