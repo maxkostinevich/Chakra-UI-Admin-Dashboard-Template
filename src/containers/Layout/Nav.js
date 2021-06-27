@@ -91,6 +91,8 @@ export default function Nav() {
                 <MenuItem><Link href="/loans/active">Active Loans</Link></MenuItem>
                 <MenuItem><Link href="/loans/completed">Completed Loans</Link></MenuItem>
                 <MenuItem><Link href="/loans">All Loans</Link></MenuItem>
+                <MenuDivider/>
+                <MenuItem><Link href="/loans/batch-payment">Batch Payments</Link></MenuItem>
               </MenuList>
             </Menu>
           </Stack>

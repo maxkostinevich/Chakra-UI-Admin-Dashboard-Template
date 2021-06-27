@@ -25,6 +25,7 @@ import Loans from "../Loans/Loans";
 import ActiveLoans from "../Loans/ActiveLoans";
 import LoanArchive from "../Loans/LoanArchive";
 import Loan from "../Loans/Loan";
+import BatchPayments from "../Loans/BatchPayments";
 
 const localUser = window.localStorage.getItem("user");
 let parsedUser;
@@ -115,6 +116,11 @@ export default function DashboardLayout() {
           exact
           path="/loans/completed"
           component={LoanArchive}
+        />
+        <Route
+          exact
+          path="/loans/batch-payment"
+          component={BatchPayments}
         />
         <Route
           exact

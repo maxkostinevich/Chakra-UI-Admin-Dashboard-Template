@@ -1,4 +1,5 @@
-import { Box, FormControl, FormLabel, Button, Input, Stack, Heading, useToast } from '@chakra-ui/core';
+import { Box, FormControl, FormLabel, Button, Input, Stack, Heading } from '@chakra-ui/core';
+import cogoToast from 'cogo-toast';
 import React, { useContext, useState } from 'react'
 import { useHistory } from 'react-router-dom';
 import { UserStateContext } from '../../contexts/UserContext';
@@ -16,7 +17,6 @@ export default function NewCustomer() {
         phoneNumber: ""
     })
 
-    const toast = useToast()
     const history = useHistory()
     const user = useContext(UserStateContext);
 
@@ -31,14 +31,12 @@ export default function NewCustomer() {
         e.preventDefault();
         setIsSubmitting(true);
         postCall("customer/create", formDetails, user.token).then(res => {
-            toast({status: "success", title: res.message});
+            console.log(res);
+            cogoToast.success(res.message);
             history.push(`/new-customer-data/${res.data.id}`)
         }, err => {
             setIsSubmitting(false);
-            toast({
-                title: err.message,
-                status: "error"
-            })
+            cogoToast.error(err.message);
         })
     };
     return (

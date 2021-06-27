@@ -35,12 +35,11 @@ const postCall = (endpoint, body, token) =>
       .then((res) => res.json())
       .then(
         (resp) => {
-          if (resp.status) {
+          if (resp.status < 300) {
             resolve(resp.response);
           } else {
             reject(resp);
           }
-          resolve(resp.response);
         },
         (err) => {
           reject(err);
@@ -60,6 +59,7 @@ const getCall = (endpoint, token) =>
     })
       .then((res) => res.json())
       .then((resp) => {
+        console.log({resp});
         if (resp.status === 200) {
           resolve(resp.response);
         } else {
@@ -69,4 +69,27 @@ const getCall = (endpoint, token) =>
       .catch((err) => reject(err));
   });
 
-export { authCall, postCall, getCall };
+const deleteCall = (endpoint, token) =>
+  new Promise((resolve, reject) => {
+    fetch(`${server}/${endpoint}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((resp) => {
+        console.log({resp});
+        if (resp.status === 200) {
+          resolve(resp.response);
+        } else {
+          reject(resp.message);
+        }
+      })
+      .catch((err) => reject(err));
+  });
+
+
+
+export { authCall, postCall, getCall, deleteCall };
