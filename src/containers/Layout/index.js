@@ -1,8 +1,8 @@
-export { default as PageContainer } from "./PageContainer";
+export { default as PageContainer } from "./PageContainer/PageContainer";
 
-export { default as Nav } from "./Nav";
+export { default as Nav } from "./Nav/Nav";
 
-export { default as Footer } from "./Footer";
+export { default as Footer } from "./Footer/Footer";
 
 export { PageContent } from "./PageContent";
 

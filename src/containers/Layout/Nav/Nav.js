@@ -13,12 +13,12 @@ import {
   MenuDivider,
   MenuGroup,
   MenuList,
-  MenuButton
+  MenuButton,
 } from "@chakra-ui/react";
 
 import { FaCog, FaChevronDown } from "react-icons/fa";
 
-import "./Layout.scss";
+import "./Nav.scss";
 
 export default function Nav() {
   return (
@@ -30,7 +30,7 @@ export default function Nav() {
       marginTop={{ md: "-4rem" }}
       zIndex="99"
     >
-      <Container maxW="lg" paddingTop="5px">
+      <Container maxW="container.lg" paddingTop="5px">
         <Stack
           direction={["column", "row"]}
           alignItems={["flex-end", "center"]}

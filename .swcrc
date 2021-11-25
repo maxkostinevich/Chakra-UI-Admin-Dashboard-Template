@@ -1,0 +1,39 @@
+{
+  "minify": true,
+  "jsc": {
+    "minify": {
+      "compress": {
+        "unused": true
+      },
+      "mangle": true
+    },
+    "parser": {
+      "syntax": "ecmascript",
+      "jsx": true,
+      "numericSeparator": false,
+      "classPrivateProperty": false,
+      "privateMethod": false,
+      "classProperty": false,
+      "functionBind": false,
+      "decorators": false,
+      "decoratorsBeforeExport": false
+    },
+    "transform": {
+      "react": {
+        "pragma": "React.createElement",
+        "pragmaFrag": "React.Fragment",
+        "throwIfNamespace": true,
+        "development": false,
+        "useBuiltins": false
+      },
+      "optimizer": {
+        "globals": {
+          "vars": {
+            "__DEBUG__": "false"
+          }
+        }
+      }
+    }
+  }
+}
+

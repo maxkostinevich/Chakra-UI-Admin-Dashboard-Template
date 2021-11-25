@@ -7,7 +7,8 @@ export default function PageContent({
   title = "",
   primaryAction = null,
   secondaryActions = null,
-  children
+  centerContent = false,
+  children,
 }) {
   const actions = [
     primaryAction ? (
@@ -34,7 +35,7 @@ export default function PageContent({
             {action.content}
           </Button>
         ))
-      : ""
+      : "",
   ];
 
   const header =
@@ -49,7 +50,11 @@ export default function PageContent({
       ""
     );
   return (
-    <Container maxW="lg" paddingTop="1.5rem">
+    <Container
+      maxW="container.lg"
+      centerContent={centerContent}
+      paddingTop="1.5rem"
+    >
       {header}
       {children}
     </Container>

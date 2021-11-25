@@ -7,11 +7,12 @@ import {
   Login,
   Register,
   PasswordReset,
-  PasswordConfirm
+  PasswordConfirm,
 } from "./containers/Auth";
 
 import { Dashboard } from "./containers/Dashboard";
 import { Users } from "./containers/Users";
+import { Profile } from "./containers/Profile";
 
 function App() {
   const [preview, setPreview] = useState("dashboard");
@@ -41,6 +42,9 @@ function App() {
       case "users":
         defaultComponent = <Users />;
         break;
+      case "profile":
+        defaultComponent = <Profile />;
+        break;
     }
     return defaultComponent;
   };
@@ -66,6 +70,7 @@ function App() {
             Dashboard
           </option>
           <option value="users">Table</option>
+          <option value="profile">Profile</option>
         </Select>
       </Box>
       {previewComponent()}

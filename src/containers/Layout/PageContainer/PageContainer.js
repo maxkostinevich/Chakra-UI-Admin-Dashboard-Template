@@ -1,7 +1,7 @@
 import React from "react";
 import { Flex } from "@chakra-ui/react";
 
-import "./Layout.scss";
+import "./PageContainer.scss";
 
 export default function PageContainer(props) {
   return (

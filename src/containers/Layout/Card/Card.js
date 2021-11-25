@@ -11,7 +11,7 @@ export default function Card({
   filterActions = null,
   bg = "secondary.card",
   color = "gray.800",
-  children
+  children,
 }) {
   let actions = [];
 
@@ -46,7 +46,7 @@ export default function Card({
   if (filterActions) {
     actions.push(
       filterActions.map((action, i) => (
-        <Select key={i} onChange={action.onClick} size="sm">
+        <Select variant="outline" key={i} onChange={action.onClick} size="sm">
           {Object.keys(action.items).map((value, index) => (
             <option
               key={index}
