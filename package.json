@@ -4,7 +4,6 @@
   "author": "maxkostinevich",
   "license": "MIT",
   "description": "",
-  "main": "index.js",
   "dependencies": {
     "@chakra-ui/react": "^1.7.2",
     "@emotion/react": "^11.6.0",
@@ -23,13 +22,13 @@
     "@swc/core": "^1.2.112",
     "html-webpack-plugin": "^5.5.0",
     "swc-loader": "^0.1.15",
+    "terser-webpack-plugin": "^5.2.5",
     "webpack": "^5.64.3",
     "webpack-cli": "^4.9.1",
     "webpack-dev-server": "^4.5.0"
   },
   "scripts": {
-    "build": "swc src -o build/index.bundle.js",
-    "start": "webpack-dev-server --open",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack --config webpack.production.config.js",
+    "start": "webpack-dev-server --open"
   }
 }
